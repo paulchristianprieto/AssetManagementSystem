@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Asset;
 use Illuminate\Http\Request;
 
+use App\Vendor;
+use App\Category;
+
 class AssetController extends Controller
 {
     /**
@@ -14,7 +17,8 @@ class AssetController extends Controller
      */
     public function index()
     {
-        //
+        $assets = Asset::all();
+        return view('assets.index')->with('assets', $assets);
     }
 
     /**
@@ -24,7 +28,9 @@ class AssetController extends Controller
      */
     public function create()
     {
-        //
+        $vendors = Vendor::all();
+        $categories = Category::all();
+        return view('assets.create')->with('vendors', $vendors)->with('categories', $categories);
     }
 
     /**
@@ -35,7 +41,7 @@ class AssetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
