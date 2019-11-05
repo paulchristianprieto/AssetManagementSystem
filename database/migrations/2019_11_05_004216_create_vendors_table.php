@@ -17,6 +17,7 @@ class CreateVendorsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('vendor_sku')->unique();
+            $table->string('image')->nullable();
             $table->string('address');
             $table->string('company_email');
             $table->string('description')->nullable();

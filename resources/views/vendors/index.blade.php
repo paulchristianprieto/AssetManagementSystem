@@ -37,6 +37,7 @@
 							<h5 class="card-title text-center">Items</h5>
 
 							<a href="{{ route('vendors.show', ['vendor' => $vendor->id])}}" class="btn btn-secondary btn-block my-1">View</a>
+							<a href="{{ route('vendors.edit', ['vendor' => $vendor->id])}}" class="btn btn-warning btn-block my-1">Edit</a>
 							<div class="table-responsive mb-3">
 
 								<table class="table table-sm table-borderless">
