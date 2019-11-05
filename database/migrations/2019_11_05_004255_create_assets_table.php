@@ -18,7 +18,7 @@ class CreateAssetsTable extends Migration
             $table->string('name');
             $table->string('image');
             $table->string('description');
-            $table->string('sku_number');
+            $table->string('sku_number')->unique();
             $table->boolean('available');
             $table->unsignedInteger('quantity_available');
 

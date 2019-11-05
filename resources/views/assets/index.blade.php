@@ -28,11 +28,20 @@
 								</h5>
 								<p class="card-subtitle">
 									<strong>
-										&#8369; {{ $asset->category }}
+										{{ $asset->category->name }}
 									</strong>
 								</p>
-								
+								<a href="{{ route('assets.show', ['asset' => $asset->id])}}" class="btn btn-secondary btn-block my-1">View</a>
+
+								<a href="{{ route('assets.edit', ['asset' => $asset->id])}}" class="btn btn-warning btn-block my-1">Edit</a>
+
+								<form action="{{ route('assets.destroy', ['asset' => $asset->id ])}} " method="POST">
+									@csrf
+									@method('DELETE')
+									<button class="btn btn-danger btn-block my-1">Remove</button>
+								</form>
 							</div>
+
 						</div>
 					@endforeach
 				</div>
