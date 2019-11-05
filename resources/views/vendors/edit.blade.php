@@ -10,9 +10,20 @@
 					Edit Vendor Info
 				</h3>
 				<hr>
+				@if(Session::has('update_failed'))
+					<div class="alert alert-warning">
+						{{ Session::get('update_failed') }}
+					</div>
+				@endif
+
+				@if (Session::has('update_success'))
+					<div class="alert alert-success">
+						{{ Session::get('update_success') }}
+					</div>
+				@endif
 				<form action="{{ route('vendors.update', ['vendor' => $vendor->id]) }} " method="POST" enctype="multipart/form-data" >
 					@csrf
-
+					@method('PUT')
 					
 					<div class="form-group">
 						<label for="name">Company Name:</label>
@@ -65,7 +76,7 @@
 					{{-- Input for image --}}
 
 					@if ($vendor->image)
-						<img src="{{ $vendor->$image }}">
+						<img src="{{ url('/public/' . $vendor->image )  }}" class="img-thumbnail">
 					@endif
 
 					<div class="form-group">

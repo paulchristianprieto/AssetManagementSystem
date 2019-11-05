@@ -9,6 +9,17 @@
 
 			<h2 class="text-center">Vendors</h2>
 
+
+			@if (Session::has('destroy_success'))
+				<div class="row">
+					<div class="col-12">
+						<div class="alert alert-success">
+							{{ Session::get('destroy_success') }}
+						</div>
+					</div>
+				</div>
+			@endif
+
 			<div class="accordion" id="vendorsAccordion">
 
 				@foreach ($vendors as $vendor)
@@ -37,7 +48,15 @@
 							<h5 class="card-title text-center">Items</h5>
 
 							<a href="{{ route('vendors.show', ['vendor' => $vendor->id])}}" class="btn btn-secondary btn-block my-1">View</a>
+
 							<a href="{{ route('vendors.edit', ['vendor' => $vendor->id])}}" class="btn btn-warning btn-block my-1">Edit</a>
+
+							<form action="{{ route('vendors.destroy', ['vendor' => $vendor->id ])}} " method="POST">
+								@csrf
+								@method('DELETE')
+								<button class="btn btn-danger btn-block my-1">Remove</button>
+							</form>
+
 							<div class="table-responsive mb-3">
 
 								<table class="table table-sm table-borderless">
