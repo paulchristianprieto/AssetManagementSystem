@@ -9,7 +9,6 @@
 
 			<h2 class="text-center">Vendors</h2>
 
-
 			@if (Session::has('destroy_success'))
 				<div class="row">
 					<div class="col-12">
@@ -26,22 +25,35 @@
 				{{-- {{ dd($vendor) }} --}}
 
 				<div class="card shadow bg-white rounded">
-					<div class="card-header" id="headingOne">
-						<h2 class="mb-0">
-							<button 
-								class="btn btn-block text-left" 
-								type="button" 
-								data-toggle="collapse" 
-								data-target="#vendor-{{$vendor->id }}" 
-								aria-expanded="false" 
-								aria-controls="collapseOne">
-								{{$vendor->name }} {{-- / {{ $vendor->created_at->format('F d, Y - h:i') }}   --}}
-				
-								
-							</button>
+					<a data-toggle="collapse" data-target="#vendor-{{$vendor->id }}" aria-expanded="false" aria-controls="collapseOne"> 
+						<div class="card-header" id="headingOne">
+							<div class="mb-0">
 
-						</h2>
-					</div>
+								<span class="float-left">{{$vendor->name }}</span> {{-- / {{ $vendor->created_at->format('F d, Y - h:i') }}   --}}
+								
+								{{-- actions --}}
+								<div class="float-right">
+									<span>
+										<a href="{{ route('vendors.show', ['vendor' => $vendor->id])}}" class="btn btn-secondary my-1 ">View</a>
+									</span>
+
+									<span>
+										<a href="{{ route('vendors.edit', ['vendor' => $vendor->id])}}" class="btn btn-warning my-1 ">Edit</a>
+									</span>
+
+									<span class="float-right">
+										<form action="{{ route('vendors.destroy', ['vendor' => $vendor->id ])}} " method="POST">
+											@csrf
+											@method('DELETE')
+											<button class="btn btn-danger my-1">Remove</button>
+										</form>
+									</span>
+								</div>
+								
+							</div>
+
+						</div>
+					</a>
 
 					<div id="vendor-{{$vendor->id }}" class="collapse" aria-labelledby="headingOne" data-parent="#vendorsAccordion">
 						<div class="card-body">
@@ -56,35 +68,24 @@
 								@method('DELETE')
 								<button class="btn btn-danger btn-block my-1">Remove</button>
 							</form>
-
-							<div class="table-responsive mb-3">
-
-								<table class="table table-sm table-borderless">
-									<tbody>
-										<tr>
-											<td>Customer Name:</td>
-											{{-- <td><strong>{{$transaction->user->name }}</strong></td> --}}
-										</tr>
-										<tr>
-											<td>Transaction Number:</td>
-											{{-- <td><strong>{{ $transaction->transaction_number }}</strong></td> --}}
-										</tr>
-										<tr>
-											<td>Mode of Payment:</td>
-											{{-- <td>{{ $transaction->payment_mode->name }}</td> --}}
-										</tr>
-										<tr>
-											<td>Status</td>
-											{{-- <td>{{ $transaction->status->name }} --}}
-
-												
-										
-										</tr>
-										
-										
-									</tbody>
-								</table>
-							</div> {{-- End of table responsive --}}
+							
+							<div class="container-fluid">
+								<div class="row">
+									@foreach($assets as $asset)
+										{{-- {{dd($asset->vendor->id)}} --}}
+										@if($asset->vendor->id == $vendor->id)
+											<div class="col-12 col-md-6 card">
+												<div class="card-img-top">
+													<img class="img-thumbnail" src="{{ url('/public/' . $asset->image) }}" alt="">
+												</div>
+												<div class="card-title">
+													{{ $asset->name }}
+												</div>
+											</div>
+										@endif
+									@endforeach
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

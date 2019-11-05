@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Vendor;
+use App\Asset;
 use Illuminate\Http\Request;
 use Str;
 
@@ -16,7 +17,8 @@ class VendorController extends Controller
     public function index()
     {
         $vendors = Vendor::all();
-        return view('vendors.index')->with('vendors', $vendors);
+        $assets = Asset::all();
+        return view('vendors.index')->with('vendors', $vendors)->with('assets', $assets);
     }
 
     /**
