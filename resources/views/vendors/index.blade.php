@@ -34,18 +34,18 @@
 								{{-- actions --}}
 								<div class="float-right">
 									<span>
-										<a href="{{ route('vendors.show', ['vendor' => $vendor->id])}}" class="btn btn-secondary my-1 ">View</a>
+										<a href="{{ route('vendors.show', ['vendor' => $vendor->id])}}" class="btn btn-secondary border-0">View</a>
 									</span>
 
 									<span>
-										<a href="{{ route('vendors.edit', ['vendor' => $vendor->id])}}" class="btn btn-warning my-1 ">Edit</a>
+										<a href="{{ route('vendors.edit', ['vendor' => $vendor->id])}}" class="btn btn-warning border-0">Edit</a>
 									</span>
 
 									<span class="float-right">
 										<form action="{{ route('vendors.destroy', ['vendor' => $vendor->id ])}} " method="POST">
 											@csrf
 											@method('DELETE')
-											<button class="btn btn-danger my-1">Remove</button>
+											<button class="btn btn-danger border-0">Remove</button>
 										</form>
 									</span>
 								</div>
@@ -96,7 +96,7 @@
 		</div>
 
 		<div class="col-12 col-md-2">
-			<p>Add Vendor <span><a href=" {{ route('vendors.create') }} " class="btn btn-success rounded-circle" >+</a></span></p>
+			<p>Add Vendor <span><a href=" {{ route('vendors.create') }} " class="btn btn-light rounded-circle bg-success" >+</a></span></p>
 		</div>
 
 	</div>
