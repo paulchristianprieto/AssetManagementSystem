@@ -126,7 +126,6 @@ class VendorController extends Controller
         else {
 
             if($request->file('image')){
-                // when request have image
                 $file = $request->file('image');
                 $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 $file_extension = $file->extension();
@@ -137,7 +136,6 @@ class VendorController extends Controller
 
                 $vendor->image = $image;
             }
-            
             
             $vendor->name = $name;
             $vendor->vendor_sku = $vendor_sku;
@@ -161,7 +159,6 @@ class VendorController extends Controller
     public function destroy(Vendor $vendor)
     {
         $vendor->delete();
-        // $request->session()->flash('destroy_success', 'Product deleted');
         return redirect(route('vendors.index'))->with('destroy_success', 'Vendor Removed.');
     }
 }
