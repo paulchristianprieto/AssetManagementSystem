@@ -101,7 +101,6 @@ class AssetController extends Controller
      */
     public function show(Asset $asset)
     {
-
         return view('assets.show')->with('asset', $asset);
     }
 

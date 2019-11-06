@@ -58,7 +58,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('requests.index') }} ">Requests</a>
+                            <a class="nav-link" href="{{ route('user_requests.index') }} ">Requests</a>
                         </li>
 
                     </ul>

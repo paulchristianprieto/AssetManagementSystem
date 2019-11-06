@@ -62,7 +62,7 @@
 											<td>{{ $request->status->name }}
 
 												@can('isAdmin')
-												<form action="{{ route('requests.update', ['request'=> $request->id]) }} " method="POST" class="p-3 bg-secondary rounded">
+												<form action="{{ route('user_requests.update', ['request'=> $request->id]) }} " method="POST" class="p-3 bg-secondary rounded">
 													@csrf
 													@method('PUT')
 
@@ -97,7 +97,8 @@
 									<tfoot>
 										<tr>
 											<td colspan="2">
-												<a href=" {{ route('requests.show', ['request'=>$request->id]) }} " class="page-link text-center rounded">View Details</a>
+													{{-- {{dd($request->id) }} --}}
+												<a href=" {{ route('user_requests.show', ['user_request'=>$request->id]) }} " class="page-link text-center rounded">View Details</a>
 											</td>
 										</tr>
 									</tfoot>

@@ -29,5 +29,5 @@ Route::resource('vendors', 'VendorController');
 
 Route::resource('categories', 'CategoryController');
 
-Route::resource('requests', 'UserRequestController');
+Route::resource('user_requests', 'UserRequestController');
 

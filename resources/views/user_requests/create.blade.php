@@ -10,7 +10,7 @@
 				{{-- {{ dd($category) }} --}}
 
 
-				<form action="{{ route('requests.store') }}" method="POST">
+				<form action="{{ route('user_requests.store') }}" method="POST">
 					@csrf
 
 					<input type="hidden" name="category_id" value="{{$category->id}}">

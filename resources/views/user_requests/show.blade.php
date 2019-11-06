@@ -3,6 +3,6 @@
 
 @section('content')
 	
-	{{ dd($userRequest) }}
+	{{-- {{ dd($user_request) }} --}}
 
 @endsection
