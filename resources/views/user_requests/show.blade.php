@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+
+
 @section('content')
 
 
@@ -93,15 +95,40 @@
 					</div>
 				</div>
 
-				<form action="#" method="POST">
-					@for ($i = 1; $i <= $user_request->quantity ; $i++)
-						<p>Assign an item  <span><button>Assign</button></span> </p>
+				<button id="add">Add an Asset</button>
 
-					@endfor
+				<form action="{{ route('user_requests.update', ['user_request' => $user_request->id]) }} " method="POST">
+					@csrf
+					@method('PUT')
+					<div id='tickets' class='box-body' data-size={{ $user_request->quantity }} >
+					    <!-- all the .row elements will be here -->
+					</div>
+					<button>Submit</button>
 				</form>
 
+				
 			</div>
 		</div>
 	</div>
+
+
+<script>
+	function addRow()
+        {
+
+            var newRow = $('<div>', {class: "row"});
+            newRow.append($('<div>', {class: "col-xs-4"})
+                    .append($('<input>', {type: "number", name: "quantity[]", class: "form-control", placeholder: "Quantity"})));
+			newRow.append($("<select>", {class:'form-control', id:'d', name:'category[]'})
+			@foreach($category_items as $category_item)
+				
+            	.append("<option value='1''>{{$category_item->name}}</option>")
+			
+			@endforeach
+            
+            )
+            $('.box-body').append(newRow);
+        }
+</script>
 
 @endsection

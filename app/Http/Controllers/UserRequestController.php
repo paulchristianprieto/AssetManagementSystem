@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\User_request;
 use App\Category;
 use App\Status;
+use App\Asset;
+
 use Illuminate\Http\Request;
 
 use Auth;
@@ -103,8 +105,11 @@ class UserRequestController extends Controller
      */
     public function show(User_request $user_request)
     {
-        // dd($user_request);
-        return view('user_requests.show', ['user_request'=>$user_request]);
+        // $userRequests = User_request::where('user_id', $user_id)->orderBy('created_at', 'DESC')->get();
+        
+        $category_items = Asset::where('category_id', $user_request->category_id)->get();
+
+        return view('user_requests.show', ['user_request'=>$user_request])->with('category_items', $category_items);
     }
 
     /**
@@ -127,7 +132,8 @@ class UserRequestController extends Controller
      */
     public function update(Request $request, User_request $user_request)
     {
-        //
+        echo "string";
+        dd($request);
     }
 
     /**
