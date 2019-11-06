@@ -8,6 +8,8 @@
 			<div class="col-12 col-md-8 mx-auto">
 				Request for {{ $category->name }}
 				{{-- {{ dd($category) }} --}}
+
+
 				<form action="{{ route('requests.store') }}" method="POST">
 					@csrf
 
@@ -16,11 +18,11 @@
 						<div class="row">
 							<div class="col-6 p-0">
 								<label for="borrow_date"> Borrow Date: </label>
-								<input class="my-2" id="borrow_date" width="276" name="borrow_date" />
+								<input class="my-2" id="borrow_date" width="276" name="borrow_date" type="datetime-local" />
 							</div>
 							<div class="p-0 col-6">
 								<label for="return_date"> Return Date: </label>
-								<input class="my-2" id="return_date" width="276" name="return_date" />
+								<input class="my-2" id="return_date" width="276" name="return_date" type="datetime-local" />
 							</div>
 						</div>
 					</div>
@@ -52,11 +54,11 @@
 
 
 <script>
-    $('#borrow_date').datepicker({
-        showOtherMonths: true
-    });
-    $('#return_date').datepicker({
-        showOtherMonths: true
-    });
+    // $('#borrow_date').datepicker({
+    //     showOtherMonths: true
+    // });
+    // $('#return_date').datepicker({
+    //     showOtherMonths: true
+    // });
 </script>
 @endsection

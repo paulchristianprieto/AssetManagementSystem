@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User_request;
 use App\Category;
+use App\Status;
 use Illuminate\Http\Request;
 
 use Auth;
@@ -18,6 +19,23 @@ class UserRequestController extends Controller
      */
     public function index()
     {
+        $statuses = Status::all();
+
+        if (Auth::user()->role_id === 2) {
+            $user_id = Auth::user()->id;
+            $userRequests = User_request::where('user_id', $user_id)->orderBy('created_at', 'DESC')->get();
+            return view('user_requests.index')
+                ->with('userRequests', $userRequests)
+                ->with('statuses', $statuses);
+        }
+        
+        if (Auth::user()->role_id === 1) {
+            $userRequests = User_request::orderBy('created_at', 'DESC')->get();
+            return view('user_requests.index')
+                ->with('userRequests', $userRequests)
+                ->with('statuses', $statuses);
+        }
+
         
     }
 
@@ -55,7 +73,7 @@ class UserRequestController extends Controller
             asset_id (to be assigned)
         */
         // dd(Auth::user()->id);
-        dd($request->all());
+        // dd($request->all());
 
         $request_number = Auth::user()->id . "_" . Str::random(10) . "_" . time();
         $description = $request->input('description');
@@ -71,8 +89,10 @@ class UserRequestController extends Controller
         $userRequest->return_date = $return_date; 
         $userRequest->user_id = $user_id; 
         $userRequest->category_id = $category_id; 
+        $userRequest->quantity = $request->input('quantity'); 
+        $userRequest->save();
 
-
+        return redirect(route('requests.show', ['request' => $userRequest->id ]));
         
     }
 
