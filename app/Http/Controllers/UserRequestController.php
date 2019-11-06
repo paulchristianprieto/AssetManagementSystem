@@ -92,8 +92,7 @@ class UserRequestController extends Controller
         $userRequest->quantity = $request->input('quantity'); 
         $userRequest->save();
 
-        return redirect(route('requests.show', ['request' => $userRequest->id ]));
-        
+        return redirect(route('user_requests.show', ['user_request' => $userRequest->id ]));
     }
 
     /**
