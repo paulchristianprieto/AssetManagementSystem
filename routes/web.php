@@ -11,6 +11,8 @@
 |
 */
 
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -19,7 +21,13 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/requests/category/{category_id}', 'UserRequestController@request_category')->name('request_category');
 
 Route::resource('assets', 'AssetController');
 
 Route::resource('vendors', 'VendorController');
+
+Route::resource('categories', 'CategoryController');
+
+Route::resource('requests', 'UserRequestController');
+

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Asset;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -14,7 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        $assets = Asset::all();
+        return view('categories.index')->with('categories', $categories)->with('assets', $assets);
     }
 
     /**
@@ -35,7 +38,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        // validate
+
+        $new_category = new Category;
+        $new_category->name = $request->input('name');
+        $new_category->category_sku = $request->input('category_sku');
+
+        $new_category->save();
+
+        $request->session()->flash('category_message', 'Category successfully added!');
+
+        return redirect(route('categories.index'));
     }
 
     /**
@@ -46,7 +60,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return view('categories.show')->with('category', $category);
     }
 
     /**
@@ -57,7 +71,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('categories.edit')->with('category', $category);
     }
 
     /**
@@ -69,7 +83,26 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $name = $request->input('name');
+        $category_sku = $request->input('category_sku');
+        $description = $request->input('description');
+        
+        if( $category->name == $name &&
+            $category->description == $description &&
+            $category->category_sku == $category_sku 
+        )
+            $request->session()->flash('update_failed','There are no changes made.');
+
+        else {
+            $category->name = $name;
+            $category->category_sku = $category_sku; 
+            $category->description = $description;
+            $category->save();
+
+            $request->session()->flash('update_success', 'Category information successfully updated.');
+        }
+
+        return redirect(route('categories.edit', ['category' => $category->id]));
     }
 
     /**
@@ -80,6 +113,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect(route('categories.index'))->with('destroy_success', 'Category Removed.');
     }
 }

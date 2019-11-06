@@ -14,6 +14,11 @@
 		@endif
 
 		<div class="row">
+			<div class="col-md-10 mx-auto text-center">
+				<h2>Assets <a href="{{ route('assets.create') }}"><button class="btn btn-success bmd-btn-fab"  >+</button></a></h2>
+			</div>
+		</div>
+		<div class="row">
 			<div class="col-12 col-md-10 mx-auto">
 				<div class="row">
 					@foreach ($assets as $asset)

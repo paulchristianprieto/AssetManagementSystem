@@ -21,78 +21,23 @@
 						{{ Session::get('update_success') }}
 					</div>
 				@endif
-				<form action="{{ route('vendors.update', ['vendor' => $vendor->id]) }} " method="POST" enctype="multipart/form-data" >
+				<form action="{{ route('categories.update', ['category' => $category->id]) }} " method="POST" enctype="multipart/form-data" >
 					@csrf
 					@method('PUT')
 					
 					<div class="form-group">
-						<label for="name">Company Name:</label>
-						<input type="text" name="name" id="name" class="form-control" value="{{ $vendor->name }}">
-
-						@if ($errors->has('name'))
-							<div class="alert alert-danger">
-								<small class="mb-0">Company name is required.</small>
-							</div>
-						@endif
+					    <label for="category" class="bmd-label-floating">Category:</label>
+					    <input type="text" class="form-control" id="category" name="name" value="{{ $category->name }}">
 					</div>
 
-					
 					<div class="form-group">
-						<label for="sku_id">SKU ID:</label>
-						<input type="text" name="sku_id" id="sku_id" class="form-control" min="1" value="{{ $vendor->vendor_sku}}" >
-
-						@if ($errors->has('sku_id'))
-							<div class="alert alert-danger">
-								<small class="mb-0">SKU ID is required.</small>
-							</div>
-						@endif
+					    <label for="category_sku" class="bmd-label-floating">Category Code:</label>
+					    <input type="text" class="form-control" id="category_sku" name="category_sku" value="{{ $category->category_sku }}">
+					    <span class="bmd-help">Ex. Monitor = MON</span>
 					</div>
 
-
 					<div class="form-group">
-						<label for="address">Company Address:</label>
-						<input type="text" name="address" id="address" class="form-control" min="1" value="{{ $vendor->address }}" >
-
-						@if ($errors->has('address'))
-							<div class="alert alert-danger">
-								<small class="mb-0">Company address is required.</small>
-							</div>
-						@endif
-					</div>
-
-
-					<div class="form-group">
-						<label for="company_email">Company Email:</label>
-						<input type="text" name="company_email" id="company_email" class="form-control" min="1" value="{{ $vendor->company_email }}" >
-
-						@if ($errors->has('company_email'))
-							<div class="alert alert-danger">
-								<small class="mb-0">Company company_email is required.</small>
-							</div>
-						@endif
-					</div>
-
-
-					{{-- Input for image --}}
-
-					@if ($vendor->image)
-						<img src="{{ url('/public/' . $vendor->image )  }}" class="img-thumbnail">
-					@endif
-
-					<div class="form-group">
-						<label for="image">Vendor Image (optional):</label>
-						<input type="file" name="image" id="image" class="form-control-file">
-
-						@if ($errors->has('image'))
-							<div class="alert alert-danger">
-								<small class="mb-0">Check if image is not greater than 3mb.</small>
-							</div>
-						@endif
-					</div>
-
-					{{-- Input for description --}}
-					<div class="form-group">
-						<label for="description">Company Description (optional):</label>
+						<label for="description">Category Description (optional):</label>
 						<textarea 
 							name="description" 
 							id="description" 
@@ -100,10 +45,11 @@
 							min="1" 
 							cols="30" 
 							rows="10"
-						>{{ $vendor->description }}</textarea>
+						>{{ $category->description }}</textarea>
 					</div>
+					
 
-					<button class="btn btn-dark btn-block">Update</button>
+					<button class="btn btn-dark btn-block">Save & Update</button>
 
 				</form>
 			</div>

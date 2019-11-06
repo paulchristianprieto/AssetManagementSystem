@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User_request;
+use App\Category;
 use Illuminate\Http\Request;
 
 class UserRequestController extends Controller
@@ -14,7 +15,7 @@ class UserRequestController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -22,9 +23,10 @@ class UserRequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request, Category $category)
     {
-        //
+        dd($request);
+        return view('user_requests.create');
     }
 
     /**
@@ -35,7 +37,19 @@ class UserRequestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /*
+            request_number
+            description -> nullable
+            borrow_date
+            return_date
+            status_id (pending)
+            user_id
+            category_id
+            asset_id (to be assigned)
+        */
+
+        dd($request->all());
+        echo "IM STORE";
     }
 
     /**
@@ -82,4 +96,10 @@ class UserRequestController extends Controller
     {
         //
     }
+
+    public function request_category(Category $category_id){
+        // dd($category_id);
+        return view('user_requests.create')->with('category', $category_id);
+    }
+
 }
