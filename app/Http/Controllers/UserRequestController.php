@@ -104,9 +104,8 @@ class UserRequestController extends Controller
      */
     public function show(User_request $user_request)
     {
-        $s = User_request::all();
-        dd($user_request);
-        return view('user_requests.show', ['transaction'=>$transaction]);
+        // dd($user_request);
+        return view('user_requests.show', ['user_request'=>$user_request]);
     }
 
     /**
