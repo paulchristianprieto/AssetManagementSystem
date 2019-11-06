@@ -64,7 +64,7 @@
 					    </select>
 					</div>
 
-					<button class="btn btn-dark btn-block">Add Vendor</button>
+					<button class="btn btn-dark btn-block">Add Asset</button>
 
 				</form>
 			</div>

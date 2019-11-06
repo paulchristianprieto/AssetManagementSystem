@@ -6,6 +6,7 @@ use App\Asset;
 use Illuminate\Http\Request;
 
 use App\Vendor;
+use App\Asset_status;
 use App\Category;
 use DB;
 use Str;
@@ -71,7 +72,7 @@ class AssetController extends Controller
         // dd($category->category_sku);
 
         //generate sku number
-        $sku_number = $vendor->vendor_sku . "_" . $category->category_sku . "_" . "_" . Str::random(5) . "_" . date('Y-m-d-H-i-s') ;
+        $sku_number = $vendor->vendor_sku . "_" . $category->category_sku . "_" . Str::random(5) . "_" . date('mHdYis') ;
 
         $available = true;
         $asset_status_id = 1;
@@ -114,7 +115,12 @@ class AssetController extends Controller
     {
         $vendors = Vendor::all();
         $categories = Category::all();
-        return view('assets.edit')->with('asset', $asset)->with('vendors', $vendors)->with('categories', $categories);
+        $asset_statuses = Asset_status::all();
+        return view('assets.edit')
+            ->with('asset', $asset)
+            ->with('vendors', $vendors)
+            ->with('categories', $categories)
+            ->with('asset_statuses', $asset_statuses);
     }
 
     /**
@@ -126,7 +132,54 @@ class AssetController extends Controller
      */
     public function update(Request $request, Asset $asset)
     {
-        //
+
+        
+        $available = $request->input('available');
+        $name = $request->input('name');
+        $quantity_available = $request->input('quantity');
+        $description = $request->input('description');
+        $asset_status_id = $request->input('asset_status_id');
+        $category_id = $request->input('category');
+        $vendor_id = $request->input('vendor');
+        
+
+        if( !$request->hasFile('image') &&
+            $asset->name == $name &&
+            $asset->quantity_available == $quantity_available &&
+            $asset->description == $description &&
+            $asset->asset_status_id == $asset_status_id &&
+            $asset->available == $available &&
+            $asset->category_id == $category_id &&
+            $asset->vendor_id == $vendor_id
+        )
+            $request->session()->flash('update_failed','There are no changes made.');
+        else {
+
+            if($request->file('image')){
+                $file = $request->file('image');
+                $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $file_extension = $file->extension();
+                $random_chars = Str::random(10);
+                $new_file_name = date('Y-m-d-H-i-s') . "_" . $random_chars . "_" . $file_name . "." . $file_extension;
+                $file_path = $file->storeAs('images', $new_file_name, 'public');
+                $image = $file_path;
+
+                $asset->image = $image;
+            }
+
+            $asset->name = $name;
+            $asset->quantity_available = $quantity_available;
+            $asset->description = $description;
+            $asset->asset_status_id = $asset_status_id;
+            $asset->available = $available;
+            $asset->category_id = $category_id;
+            $asset->vendor_id = $vendor_id;
+            $asset->save();
+
+            $request->session()->flash('update_success', 'Asset information successfully updated.');
+        }
+
+        return redirect(route('assets.edit', ['asset' => $asset->id]));
     }
 
     /**
@@ -137,6 +190,7 @@ class AssetController extends Controller
      */
     public function destroy(Asset $asset)
     {
-        //
+        $asset->delete();
+        return redirect(route('assets.index'))->with('destroy_success', 'Asset Removed.');    
     }
 }
