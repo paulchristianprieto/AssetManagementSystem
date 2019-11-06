@@ -25,7 +25,7 @@
 					</div>
 
 					<div class="form-group">
-						<label for="description">Company Description (optional):</label>
+						<label for="description">Category Description (optional):</label>
 						<textarea 
 							name="description" 
 							id="description" 

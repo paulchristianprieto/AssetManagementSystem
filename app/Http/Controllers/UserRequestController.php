@@ -6,6 +6,9 @@ use App\User_request;
 use App\Category;
 use Illuminate\Http\Request;
 
+use Auth;
+use Str;
+
 class UserRequestController extends Controller
 {
     /**
@@ -38,18 +41,39 @@ class UserRequestController extends Controller
     public function store(Request $request)
     {
         /*
+        "category_id" => "2"
+        "borrow_date" => "11/30/2019"
+        "request_date" => "11/22/2019"
+        "quantity" => "7"
             request_number
             description -> nullable
             borrow_date
             return_date
-            status_id (pending)
+            status_id (pending) may default sa migration
             user_id
             category_id
             asset_id (to be assigned)
         */
-
+        // dd(Auth::user()->id);
         dd($request->all());
-        echo "IM STORE";
+
+        $request_number = Auth::user()->id . "_" . Str::random(10) . "_" . time();
+        $description = $request->input('description');
+        $borrow_date = $request->input('borrow_date');
+        $return_date = $request->input('return_date');
+        $user_id = Auth::user()->id;
+        $category_id = $request->input('category_id');
+
+        $userRequest = new User_request;
+        $userRequest->request_number = $request_number; 
+        $userRequest->description = $description; 
+        $userRequest->borrow_date = $borrow_date; 
+        $userRequest->return_date = $return_date; 
+        $userRequest->user_id = $user_id; 
+        $userRequest->category_id = $category_id; 
+
+
+        
     }
 
     /**

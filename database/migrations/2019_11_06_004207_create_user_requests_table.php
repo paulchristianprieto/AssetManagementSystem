@@ -19,6 +19,7 @@ class CreateUserRequestsTable extends Migration
             $table->string('description')->nullable();
             $table->dateTime('borrow_date');
             $table->dateTime('return_date');
+            $table->unsignedInteger('quantity');
 
             //status_id
             $table->unsignedBigInteger('status_id')->default(1);
