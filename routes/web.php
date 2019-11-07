@@ -22,6 +22,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/requests/category/{category_id}', 'UserRequestController@request_category')->name('request_category');
+Route::get('requests/assign/{user_request}','UserRequestController@assign')->name('request_assign');
+Route::put('requests/approve/{user_request}','UserRequestController@approve')->name('request_approve');
 
 Route::resource('assets', 'AssetController');
 

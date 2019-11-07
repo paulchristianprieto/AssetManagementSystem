@@ -212,4 +212,76 @@ class UserRequestController extends Controller
         echo "Im returning my asset";
     }
 
+    public function approve(Request $request, User_request $user_request)
+    {
+        // dd($request->all());
+        dd($user_request);
+        /*
+        "id" => 4
+        "request_number" => "1_nOyLxCW55E_1573136969"
+        "description" => "12"
+        "borrow_date" => "2020-01-01 01:00:00"
+        "return_date" => "2019-01-01 01:00:00"
+        "quantity" => 2
+        "status_id" => 1
+        "user_id" => 1
+        "category_id" => 1
+        "asset_id" => null
+        "created_at" => "2019-11-07 14:29:29"
+        "updated_at" => "2019-11-07 14:29:29"
+        "deleted_at" => null
+        */
+
+        // $products = Product::find($cart_ids);
+        $assets_quantities = $request->input('quantity');
+        $assets_items = $request->input('category_item_id');
+
+        // dd($assets_items, $assets_quantities);
+
+        $asset = Asset::find($assets_items);
+        
+        // dd($user_request);
+        // dd($assets, $assets_quantities, $assets_items);
+
+        $assigned_items;
+        $array = [];
+
+        foreach ($assets_items as $asset_item => $asset_id) {
+            foreach ($assets_quantities as $assets_quantity => $quantity) {
+                if ($asset_item == $assets_quantity ) {
+                    $assigned_items[$asset_id] = $quantity;
+                    // $array[$asset_id] = $quantity;
+                }
+            }
+        }
+
+
+        foreach ($assigned_items as $asset_id => $quantity) {
+            foreach ($assets as $asset) {
+                if ($asset_id == $asset->id) {
+                    $user_request->assets()->attach(
+                    $asset->id,
+                    [
+                        'quantity' => $quantity
+                    ]
+                    );
+                }
+            }
+        }
+        
+
+        // $user_request->asset_id
+
+        $user_request->status_id = 2;
+        $user_request->save();
+
+        return redirect(route('user_requests.show', ['user_request' => $user_request->id]));
+    }
+
+    public function assign(User_request $user_request){
+        // dd($user_request);
+        $assets = Asset::all();
+        return view('user_requests.assign')->with('user_request', $user_request)->with('assets', $assets);
+    }
+
 }
