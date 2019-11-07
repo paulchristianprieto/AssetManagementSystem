@@ -20,7 +20,7 @@ class CreateAssetRequestTable extends Migration
 
             //request_id
             $table->unsignedBigInteger('user_request_id');
-            $table->foreign('request_id')
+            $table->foreign('user_request_id')
                 ->references('id')
                 ->on('user_requests')
                 ->onDelete('restrict')

@@ -148,25 +148,39 @@ class UserRequestController extends Controller
         $assets_quantities = $request->input('quantity');
         $assets_items = $request->input('category_item_id');
 
+        // dd($assets_items, $assets_quantities);
+
         $assets = Asset::find($assets_items);
         
         // dd($user_request);
         // dd($assets, $assets_quantities, $assets_items);
 
+        $assigned_items;
+        $array = [];
+
         foreach ($assets_items as $asset_item => $asset_id) {
             foreach ($assets_quantities as $assets_quantity => $quantity) {
-                foreach ($assets as $asset) {
-                    if ($asset_id == $asset->id) {
-                        $user_request->assets()->attach(
-                        $asset->id,
-                        [
-                            'quantity' => $quantity
-                        ]
-                        );
-                    }
+                if ($asset_item == $assets_quantity ) {
+                    $assigned_items[$asset_id] = $quantity;
+                    // $array[$asset_id] = $quantity;
                 }
             }
         }
+
+
+        foreach ($assigned_items as $asset_id => $quantity) {
+            foreach ($assets as $asset) {
+                if ($asset_id == $asset->id) {
+                    $user_request->assets()->attach(
+                    $asset->id,
+                    [
+                        'quantity' => $quantity
+                    ]
+                    );
+                }
+            }
+        }
+        
 
         // $user_request->asset_id
         $user_request->save();
