@@ -23,19 +23,19 @@ class CreateAssetsTable extends Migration
             $table->unsignedInteger('quantity_available');
 
             //category_id
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories')
-                ->onDelete('restrict')
+                ->onDelete('set null')
                 ->onUpdate('cascade');
 
             //vendor_id
-            $table->unsignedBigInteger('vendor_id');
+            $table->unsignedBigInteger('vendor_id')->nullable();
             $table->foreign('vendor_id')
                 ->references('id')
                 ->on('vendors')
-                ->onDelete('restrict')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             //asset_status_id
