@@ -15,7 +15,8 @@
 
 		<div class="row">
 			<div class="col-md-10 mx-auto text-center">
-				<h2>Assets <span><a href=" {{ route('assets.create') }} " class="btn btn-light rounded-circle bg-success" >+</a></span></h2>
+
+				<h2>Assets <span><a href=" {{ route('assets.create') }} " class="btn btn-light rounded-circle bg-success"><strong>+</strong></a></span></h2>
 
 				
 			</div>

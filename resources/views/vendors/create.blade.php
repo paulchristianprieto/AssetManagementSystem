@@ -32,7 +32,7 @@
 
 							@if ($errors->has('sku_id'))
 								<div class="alert alert-danger">
-									<small class="mb-0">SKU ID is required.</small>
+									<small class="mb-0">SKU ID is required. | Maximum 4 characters.</small>
 								</div>
 							@endif
 						</div>

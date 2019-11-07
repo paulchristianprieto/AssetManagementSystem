@@ -58,7 +58,7 @@ class VendorController extends Controller
             "name" => 'required|string',
             "address" => 'nullable|string',
             'image' => 'image|max:30000',
-            "company_email" => 'email:rfc,dns',
+            "company_email" => 'email:rfc',
             "description" => 'nullable|string'
         ]);
 

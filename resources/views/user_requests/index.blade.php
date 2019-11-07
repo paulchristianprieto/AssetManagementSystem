@@ -16,30 +16,49 @@
 
 				<div class="card shadow bg-white rounded">
 					<div class="card-header" id="headingOne">
-						<h2 class="mb-0">
-							<button 
-								class="btn btn-block text-left" 
-								type="button" 
-								data-toggle="collapse" 
-								data-target="#request-{{$request->id }}" 
-								aria-expanded="false" 
-								aria-controls="collapseOne">
-								{{$request->request_number }} / {{ $request->category->name }}  
-								{{-- @if (Session::has('transaction_updated') && Session::get('transaction_updated') == $transaction->id )
-									<span class="badge badge-info"> Status Updated </span>
-								@endif --}}
+						<div class="row">
+							<div class="col-9">
+								<button 
+									class="btn btn-block text-left" 
+									type="button" 
+									data-toggle="collapse" 
+									data-target="#request-{{$request->id }}" 
+									aria-expanded="false" 
+									aria-controls="collapseOne">
+									<h5 class="btn-block">
+										<strong><span class="float-left">{{$request->request_number }}</span></strong>
 
-								{{-- @if ($transaction->status->name == "Pending")
-									<span class="badge badge-warning float-right">{{$transaction->status->name }}</span>
+										<span class="badge {{($request->status_id == 1) ? "badge-warning":"badge-success"}} float-right ">
+											{{ 	$request->status->name }}
+										</span>
 
-								@else
-									<span class="badge badge-success float-right">{{$transaction->status->name }}</span>
+									</h5> 
+									
+									
+								</button>
+							</div>
+							
+							
+							{{-- actions --}}
+							<div class="col-3 text-center">
+								<span>
+									<a href="{{ route('user_requests.show', ['request' => $request->id])}}" class="btn btn-dark btn-raised bg-info">Assign</a>
+								</span>
 
-								@endif --}}
-								
-							</button>
+								<span>
+									<a href="{{ route('user_requests.edit', ['request' => $request->id])}}" class="btn btn-dark btn-raised bg-warning">Reject</a>
+								</span>
 
-						</h2>
+								{{-- <span class="float-right">
+									<form action="{{ route('vendors.destroy', ['vendor' => $vendor->id ])}} " method="POST">
+										@csrf
+										@method('DELETE')
+										<button class="btn btn-danger border-0">Remove</button>
+									</form>
+								</span> --}}
+							</div>
+						</div>
+
 					</div>
 
 					<div id="request-{{$request->id }}" class="collapse" aria-labelledby="headingOne" data-parent="#requestsAccordion">
