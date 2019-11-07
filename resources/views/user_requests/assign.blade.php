@@ -110,11 +110,16 @@
 										</p>
 									</div>
 									<div class="card-footer">
-										<a href="{{ route('assets.show', ['asset' => $asset->id]) }}" class="btn btn-primary btn-outline-primary float-right"><small class="text-muted">Assign Item</small></a>
+
+										<form action="{{ route('request_approve', ['user_request' => $user_request->id]) }}" method="POST">
+											@csrf
+											@method('PUT')
+											<input type="hidden" value="{{$asset->id}}" name="asset_id">
+											<button class="btn btn-primary btn-outline-primary float-right"><small class="text-muted">Assign Item</small></button>
+										</form>
 									</div>
 								</div>
 							@endif
-
 						@endforeach
 						</div>
 					</div>

@@ -106,10 +106,13 @@ class UserRequestController extends Controller
     public function show(User_request $user_request)
     {
         // $userRequests = User_request::where('user_id', $user_id)->orderBy('created_at', 'DESC')->get();
-        
+        if($user_request->asset_id)
+            $asset = Asset::find($user_request->asset_id);
+
+
         $category_items = Asset::where('category_id', $user_request->category_id)->get();
 
-        return view('user_requests.show', ['user_request'=>$user_request])->with('category_items', $category_items);
+        return view('user_requests.show', ['user_request'=>$user_request])->with('category_items', $category_items)->with('asset', $asset);
     }
 
     /**
@@ -214,8 +217,8 @@ class UserRequestController extends Controller
 
     public function approve(Request $request, User_request $user_request)
     {
-        // dd($request->all());
-        dd($user_request);
+        // dd( $request->input('asset_id') );
+        // dd($user_request);
         /*
         "id" => 4
         "request_number" => "1_nOyLxCW55E_1573136969"
@@ -233,45 +236,47 @@ class UserRequestController extends Controller
         */
 
         // $products = Product::find($cart_ids);
-        $assets_quantities = $request->input('quantity');
-        $assets_items = $request->input('category_item_id');
+        // $assets_quantities = $request->input('quantity');
+        // $assets_items = $request->input('category_item_id');
 
-        // dd($assets_items, $assets_quantities);
+        $asset = Asset::find($request->input('asset_id'));
 
-        $asset = Asset::find($assets_items);
-        
-        // dd($user_request);
-        // dd($assets, $assets_quantities, $assets_items);
+        $user_request->assets()->attach(
+            $asset->id,
+            [
+                'quantity' => $user_request->quantity
+            ]
+        );
 
         $assigned_items;
-        $array = [];
 
-        foreach ($assets_items as $asset_item => $asset_id) {
-            foreach ($assets_quantities as $assets_quantity => $quantity) {
-                if ($asset_item == $assets_quantity ) {
-                    $assigned_items[$asset_id] = $quantity;
-                    // $array[$asset_id] = $quantity;
-                }
-            }
-        }
+        // foreach ($assets_items as $asset_item => $asset_id) {
+        //     foreach ($assets_quantities as $assets_quantity => $quantity) {
+        //         if ($asset_item == $assets_quantity ) {
+        //             $assigned_items[$asset_id] = $quantity;
+        //         }
+        //     }
+        // }
 
 
-        foreach ($assigned_items as $asset_id => $quantity) {
-            foreach ($assets as $asset) {
-                if ($asset_id == $asset->id) {
-                    $user_request->assets()->attach(
-                    $asset->id,
-                    [
-                        'quantity' => $quantity
-                    ]
-                    );
-                }
-            }
-        }
+        // foreach ($assigned_items as $asset_id => $quantity) {
+        //     foreach ($assets as $asset) {
+        //         if ($asset_id == $asset->id) {
+        //             $user_request->assets()->attach(
+        //             $asset->id,
+        //             [
+        //                 'quantity' => $quantity
+        //             ]
+        //             );
+        //         }
+        //     }
+        // }
         
-
         // $user_request->asset_id
 
+        $asset->quantity_available = $asset->quantity_available - $user_request->quantity;
+        $asset->save();
+        $user_request->asset_id = $request->input('asset_id');
         $user_request->status_id = 2;
         $user_request->save();
 

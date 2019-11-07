@@ -94,8 +94,32 @@
 						{{ $user_request->quantity }}
 					</div>
 				</div>
+				
+				{{-- {{ dd($asset) }} --}}
+				@if($user_request->asset_id)
+					
+					<div class="card col-6 mx-auto mt-4"> 
+						<h3 class="card-title text-center">Assigned Asset</h3>
+						<img class="card-img-top img-fluid" src="{{ url('/public/' . $asset->image) }}">
+						<div class="card-body">
+							<h5 class="card-title">{{ $asset->name }}</h5>
+							<p class="card-text">
+								Type: {{ $asset->category->name }}
+							</p>
+							<p class="card-text">
+								Condition: {{ $asset->asset_status->name }}
+							</p>
+						</div>
+						<div class="card-footer">
+							<a href="{{ route('assets.show', ['asset' => $asset->id]) }}" class="btn btn-primary btn-outline-primary float-right"><small class="text-muted">View Item</small></a>
+						</div>
+					</div>
+				</div>
 
-				<div class="mt-3">
+				@endif
+
+
+				{{-- <div class="mt-3">
 
 					<button id="add" class="btn bg-info btn-raised col-3 mt-2">Add an Asset</button>
 
@@ -108,7 +132,7 @@
 						</div>
 						<button class="btn bg-primary btn-raised col-3 mt-3">Submit</button>
 					</form>
-				</div>
+				</div> --}}
 				
 			</div>
 		</div>
