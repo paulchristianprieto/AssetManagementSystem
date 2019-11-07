@@ -24,6 +24,7 @@ class User_request extends Model
     public function assets(){
     	return $this->belongsToMany('App\Assets', 'asset_request')
     		->withPivot('quantity')
+            ->withPivot('asset_status')
     		->withTimestamps();
     }
 

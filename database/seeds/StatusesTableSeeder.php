@@ -22,7 +22,10 @@ class StatusesTableSeeder extends Seeder
         	'name'=>'Approved'
         ]);	
         DB::table('statuses')->insert([
-        	'name'=>'Completed'
+        	'name'=>'Returned'
         ]);	
+        DB::table('statuses')->insert([
+            'name'=>'Partially Returned'
+        ]); 
     }
 }

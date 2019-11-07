@@ -16,6 +16,7 @@ class CreateAssetRequestTable extends Migration
         Schema::create('asset_request', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('quantity');
+            $table->string('asset_status');
 
             //request_id
             $table->unsignedBigInteger('request_id');
