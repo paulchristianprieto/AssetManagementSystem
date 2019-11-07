@@ -132,8 +132,45 @@ class UserRequestController extends Controller
      */
     public function update(Request $request, User_request $user_request)
     {
-        echo "string";
-        dd($request);
+        // dd($request->all());
+        /*
+          "request_id" => "4"
+          "quantity" => array:2 [▼
+            0 => "120"
+            1 => "3"
+          ]
+          "category_item_id" => array:2 [▼
+            0 => "3"
+            1 => "2"
+        */
+
+        // $products = Product::find($cart_ids);
+        $assets_quantities = $request->input('quantity');
+        $assets_items = $request->input('category_item_id');
+
+        $assets = Asset::find($assets_items);
+        
+        // dd($user_request);
+        // dd($assets, $assets_quantities, $assets_items);
+
+        foreach ($assets_items as $asset_item => $asset_id) {
+            foreach ($assets_quantities as $assets_quantity => $quantity) {
+                foreach ($assets as $asset) {
+                    if ($asset_id == $asset->id) {
+                        $user_request->assets()->attach(
+                        $asset->id,
+                        [
+                            'quantity' => $quantity
+                        ]
+                        );
+                    }
+                }
+            }
+        }
+
+        // $user_request->asset_id
+        $user_request->save();
+
     }
 
     /**

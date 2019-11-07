@@ -100,6 +100,7 @@
 				<form action="{{ route('user_requests.update', ['user_request' => $user_request->id]) }} " method="POST">
 					@csrf
 					@method('PUT')
+					<input type="hidden" name="request_id" value="{{ $user_request->id }} ">
 					<div id='tickets' class='box-body' data-size={{ $user_request->quantity }} >
 					    <!-- all the .row elements will be here -->
 					</div>
@@ -119,10 +120,11 @@
             var newRow = $('<div>', {class: "row"});
             newRow.append($('<div>', {class: "col-xs-4"})
                     .append($('<input>', {type: "number", name: "quantity[]", class: "form-control", placeholder: "Quantity"})));
-			newRow.append($("<select>", {class:'form-control', id:'d', name:'category[]'})
+
+			newRow.append($("<select>", {class:'form-control', id:'d', name:'category_item_id[]'})
 			@foreach($category_items as $category_item)
 				
-            	.append("<option value='1''>{{$category_item->name}}</option>")
+            	.append("<option value='{{$category_item->id}}'>{{$category_item->name}}</option>")
 			
 			@endforeach
             

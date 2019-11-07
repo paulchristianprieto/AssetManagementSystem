@@ -16,10 +16,10 @@ class CreateAssetRequestTable extends Migration
         Schema::create('asset_request', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('quantity');
-            $table->string('asset_status');
+            $table->string('asset_status')->default('Lent');
 
             //request_id
-            $table->unsignedBigInteger('request_id');
+            $table->unsignedBigInteger('user_request_id');
             $table->foreign('request_id')
                 ->references('id')
                 ->on('user_requests')
