@@ -41,6 +41,26 @@ class VendorController extends Controller
     public function store(Request $request)
     {
         // $request->validate([]);
+        // $request->validate([
+        //     'name' => 'required|string',
+        //     'price' => 'required|numeric',
+        //     'category' => 'required',
+        //     'image' => 'required|image|max:30000',
+        //     'description' => 'required|string'
+        // ]);
+
+
+
+        // dd($request);
+
+        $request->validate([
+            "sku_id" => 'required|string|max:4|unique:vendors,vendor_sku',
+            "name" => 'required|string',
+            "address" => 'nullable|string',
+            'image' => 'image|max:30000',
+            "company_email" => 'email:rfc,dns',
+            "description" => 'nullable|string'
+        ]);
 
         $name = $request->input('name');
         $vendor_sku = $request->input('sku_id');

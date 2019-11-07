@@ -183,8 +183,11 @@ class UserRequestController extends Controller
         
 
         // $user_request->asset_id
+
+        $user_request->status_id = 2;
         $user_request->save();
 
+        return redirect(route('user_requests.show', ['user_request' => $user_request->id]));
     }
 
     /**
@@ -201,6 +204,12 @@ class UserRequestController extends Controller
     public function request_category(Category $category_id){
         // dd($category_id);
         return view('user_requests.create')->with('category', $category_id);
+    }
+
+    public function return_asset(){
+
+
+        echo "Im returning my asset";
     }
 
 }

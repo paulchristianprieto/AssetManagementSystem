@@ -5,9 +5,9 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-12 col-md-8 offset-2">
+		<div class="col-12 col-md-9 mx-auto">
 
-			<h2 class="text-center">Vendors</h2>
+			<h1 class="text-center">Vendors <span><a href=" {{ route('vendors.create') }} " class="btn btn-light rounded-circle bg-success" >+</a></span></h1>
 
 			@if (Session::has('destroy_success'))
 				<div class="row">
@@ -27,9 +27,10 @@
 				<div class="card shadow bg-white rounded">
 					<a data-toggle="collapse" data-target="#vendor-{{$vendor->id }}" aria-expanded="false" aria-controls="collapseOne"> 
 						<div class="card-header" id="headingOne">
-							<div class="mb-0">
+							<div class="">
 
-								<span class="float-left">{{$vendor->name }}</span> {{-- / {{ $vendor->created_at->format('F d, Y - h:i') }}   --}}
+								<h4 class="btn-block"><span class="float-left">{{$vendor->name }}</span></h4> 
+								{{-- / {{ $vendor->created_at->format('F d, Y - h:i') }}   --}}
 								
 								{{-- actions --}}
 								<div class="float-right">
@@ -57,33 +58,35 @@
 
 					<div id="vendor-{{$vendor->id }}" class="collapse" aria-labelledby="headingOne" data-parent="#vendorsAccordion">
 						<div class="card-body">
-							<h5 class="card-title text-center">Items</h5>
-
-							<a href="{{ route('vendors.show', ['vendor' => $vendor->id])}}" class="btn btn-secondary btn-block my-1">View</a>
-
-							<a href="{{ route('vendors.edit', ['vendor' => $vendor->id])}}" class="btn btn-warning btn-block my-1">Edit</a>
-
-							<form action="{{ route('vendors.destroy', ['vendor' => $vendor->id ])}} " method="POST">
-								@csrf
-								@method('DELETE')
-								<button class="btn btn-danger btn-block my-1">Remove</button>
-							</form>
+							{{-- {{ dd($assets) }} --}}
+							<h5 class="card-title text-center">{{$vendor->name }}'s Products </h5>
 							
 							<div class="container-fluid">
 								<div class="row">
+									<div class="card-group">
 									@foreach($assets as $asset)
-										{{-- {{dd($asset->vendor->id)}} --}}
+
 										@if($asset->vendor->id == $vendor->id)
-											<div class="col-12 col-md-6 card">
-												<div class="card-img-top">
-													<img class="img-thumbnail" src="{{ url('/public/' . $asset->image) }}" alt="">
-												</div>
-												<div class="card-title">
-													{{ $asset->name }}
-												</div>
+									
+										<div class="card col-4"> 
+											<div class="card-header">{{ $asset->sku_number }}</div>
+											<img class="card-img-top" src="{{ url('/public/' . $asset->image) }}" style="height: 150px;">
+											<div class="card-body">
+												<h5 class="card-title">{{ $asset->name }}</h5>
+												<p class="card-text">{{ $asset->category->name }}
+													<span class="card-text badge float-right {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
+														{{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}} 
+													</span>
+												</p>
 											</div>
+											<div class="card-footer">
+												<a href="{{ route('assets.show', ['asset' => $asset->id]) }}" class="btn btn-primary btn-outline-primary float-right"><small class="text-muted">View Item</small></a>
+											</div>
+										</div>
 										@endif
+
 									@endforeach
+									</div>
 								</div>
 							</div>
 						</div>
@@ -95,9 +98,7 @@
 			</div>
 		</div>
 
-		<div class="col-12 col-md-2">
-			<p>Add Vendor <span><a href=" {{ route('vendors.create') }} " class="btn btn-light rounded-circle bg-success" >+</a></span></p>
-		</div>
+		
 
 	</div>
 </div>

@@ -7,7 +7,7 @@
 	<div class="row">
 		<div class="col-12 col-md-8 offset-2">
 
-			<h2 class="text-center">Categories</h2>
+			<h2 class="text-center">Categories </h2>
 
 			@if (Session::has('destroy_success'))
 				<div class="row">

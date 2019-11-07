@@ -21,12 +21,13 @@
 						{{ Session::get('update_success') }}
 					</div>
 				@endif
+
 				<form action="{{ route('vendors.update', ['vendor' => $vendor->id]) }} " method="POST" enctype="multipart/form-data" >
 					@csrf
 					@method('PUT')
 					
 					<div class="form-group">
-						<label for="name">Company Name:</label>
+						<label for="name" class="bmd-label-floating">Company Name:</label>
 						<input type="text" name="name" id="name" class="form-control" value="{{ $vendor->name }}">
 
 						@if ($errors->has('name'))
@@ -38,7 +39,7 @@
 
 					
 					<div class="form-group">
-						<label for="sku_id">SKU ID:</label>
+						<label for="sku_id" class="bmd-label-floating">SKU ID:</label>
 						<input type="text" name="sku_id" id="sku_id" class="form-control" min="1" value="{{ $vendor->vendor_sku}}" >
 
 						@if ($errors->has('sku_id'))
@@ -50,7 +51,7 @@
 
 
 					<div class="form-group">
-						<label for="address">Company Address:</label>
+						<label for="address" class="bmd-label-floating">Company Address:</label>
 						<input type="text" name="address" id="address" class="form-control" min="1" value="{{ $vendor->address }}" >
 
 						@if ($errors->has('address'))
@@ -61,7 +62,7 @@
 					</div>
 
 
-					<div class="form-group">
+					<div class="form-group" class="bmd-label-floating">
 						<label for="company_email">Company Email:</label>
 						<input type="text" name="company_email" id="company_email" class="form-control" min="1" value="{{ $vendor->company_email }}" >
 
@@ -74,13 +75,11 @@
 
 
 					{{-- Input for image --}}
-
-					@if ($vendor->image)
-						<img src="{{ url('/public/' . $vendor->image )  }}" class="img-thumbnail">
-					@endif
-
 					<div class="form-group">
-						<label for="image">Vendor Image (optional):</label>
+						<label for="image" class="bmd-label-floating">{{ !($vendor->image) ? "Vendor Image (optional):": "Change Vendor Image: "}}</label>
+						@if ($vendor->image)
+							<img src="{{ url('/public/' . $vendor->image)  }}" class="img-thumbnail">
+						@endif
 						<input type="file" name="image" id="image" class="form-control-file">
 
 						@if ($errors->has('image'))
@@ -91,7 +90,7 @@
 					</div>
 
 					{{-- Input for description --}}
-					<div class="form-group">
+					<div class="form-group" class="bmd-label-floating">
 						<label for="description">Company Description (optional):</label>
 						<textarea 
 							name="description" 
@@ -103,7 +102,7 @@
 						>{{ $vendor->description }}</textarea>
 					</div>
 
-					<button class="btn btn-dark btn-block">Update</button>
+					<button class="btn bg-info btn-outline-light btn-block">Update</button>
 
 				</form>
 			</div>
