@@ -95,33 +95,36 @@
 					</div>
 				</div>
 
-				<button id="add">Add an Asset</button>
+				<div class="mt-3">
 
-				<form action="{{ route('user_requests.update', ['user_request' => $user_request->id]) }} " method="POST">
-					@csrf
-					@method('PUT')
-					<input type="hidden" name="request_id" value="{{ $user_request->id }} ">
-					<div id='tickets' class='box-body' data-size={{ $user_request->quantity }} >
-					    <!-- all the .row elements will be here -->
-					</div>
-					<button>Submit</button>
-				</form>
+					<button id="add" class="btn bg-info btn-raised col-3 mt-2">Add an Asset</button>
 
+					<form action="{{ route('user_requests.update', ['user_request' => $user_request->id]) }} " method="POST">
+						@csrf
+						@method('PUT')
+						<input type="hidden" name="request_id" value="{{ $user_request->id }} ">
+						<div id='tickets' class='box-body' data-size={{ $user_request->quantity }} >
+						    <!-- all the .row elements will be here -->
+						</div>
+						<button class="btn bg-primary btn-raised col-3 mt-3">Submit</button>
+					</form>
+				</div>
 				
 			</div>
 		</div>
 	</div>
-
-
 <script>
 	function addRow()
         {
 
-            var newRow = $('<div>', {class: "row"});
-            newRow.append($('<div>', {class: "col-xs-4"})
+            var newRow = $('<div>', {class: "row mt-2"});
+            newRow.append($("<p>", {class: "col-2"}).append("Quantity: "));
+            newRow.append($('<div>', {class: "col-4"})
                     .append($('<input>', {type: "number", name: "quantity[]", class: "form-control", placeholder: "Quantity"})));
-
-			newRow.append($("<select>", {class:'form-control', id:'d', name:'category_item_id[]'})
+			
+			var newRow2 = $('<div>', {class: "row mt-2"});
+			newRow2.append($("<p>", {class: "col-2"}).append("Asset: "));
+			newRow2.append($("<select>", {class:'form-control col-4 ml-2', name:'category_item_id[]'})
 			@foreach($category_items as $category_item)
 				
             	.append("<option value='{{$category_item->id}}'>{{$category_item->name}}</option>")
@@ -129,7 +132,7 @@
 			@endforeach
             
             )
-            $('.box-body').append(newRow);
+            $('.box-body').append(newRow).append(newRow2);
         }
 </script>
 

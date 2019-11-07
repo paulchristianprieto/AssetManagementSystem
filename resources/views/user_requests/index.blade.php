@@ -42,11 +42,11 @@
 							{{-- actions --}}
 							<div class="col-3 text-center">
 								<span>
-									<a href="{{ route('user_requests.show', ['request' => $request->id])}}" class="btn btn-dark btn-raised bg-info">Assign</a>
+									<a href="{{ route('user_requests.show', ['user_request'=>$request->id]) }}" class="btn btn-dark btn-raised bg-info">Assign</a>
 								</span>
 
 								<span>
-									<a href="{{ route('user_requests.edit', ['request' => $request->id])}}" class="btn btn-dark btn-raised bg-warning">Reject</a>
+									<a href="{{ route('user_requests.edit', ['user_request' => $request->id])}}" class="btn btn-dark btn-raised bg-warning">Reject</a>
 								</span>
 
 								{{-- <span class="float-right">
