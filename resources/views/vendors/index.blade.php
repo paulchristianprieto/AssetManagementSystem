@@ -7,6 +7,7 @@
 	<div class="row">
 		<div class="col-12 col-md-9 mx-auto">
 
+			
 			<h2 class="text-center">Vendors <span><a href=" {{ route('vendors.create') }} " class="btn btn-light rounded-circle bg-success"><strong>+</strong></a></span></h2>
 
 			@if (Session::has('destroy_success'))

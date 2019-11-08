@@ -7,6 +7,7 @@
 	<div class="row">
 		<div class="col-12 col-md-8 offset-2">
 
+
 			<h2 class="text-center">Categories </h2>
 
 			@if (Session::has('destroy_success'))
@@ -22,18 +23,30 @@
 			<div class="accordion" id="categoriesAccordion">
 
 				@foreach ($categories as $category)
+				
 
 				<div class="card shadow bg-white rounded">
 					<a data-toggle="collapse" data-target="#category-{{$category->id }}" aria-expanded="false" aria-controls="collapseOne"> 
 						<div class="card-header" id="headingOne">
 							<div class="mb-0">
 
-								<span class="float-left">{{$category->name }}</span> 
+								<span class="float-left">{{$category->name }}</span>
+								<span class="ml-2 badge-pill 
+
+								{{ ($category_available_items[$category->id]) ? "badge-info": "badge-danger"}}
+								"> 
+									{{ $category_available_items[$category->id] }}
+								</span>
 								<div class="float-right">
+
+									@cannot('isAdmin')
 									<span>
 										<a href="{{ route('request_category', ['category_id' => $category->id])}}" class="btn btn-primary border-0">Request</a>
 									</span>
 
+									@endcannot
+									@can('isAdmin')
+									
 									<span>
 										<a href="{{ route('categories.show', ['category' => $category->id])}}" class="btn btn-secondary border-0">View</a>
 									</span>
@@ -49,6 +62,7 @@
 											<button class="btn btn-danger border-0">Remove</button>
 										</form>
 									</span>
+									@endcan
 								</div>
 								
 							</div>
@@ -86,6 +100,7 @@
 			</div>
 		</div>
 
+		@can('isAdmin')
 		<div class="col-12 col-md-2">
 			<form action="{{ route('categories.store') }}" method="POST">
 				@csrf
@@ -103,6 +118,7 @@
 				</div>
 			</form>
 		</div>
+		@endcan
 
 	</div>
 </div>

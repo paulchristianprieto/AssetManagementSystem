@@ -45,6 +45,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
 
+                        @can('isAdmin')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('vendors.index') }} ">Vendors</a>
                         </li>
@@ -52,7 +53,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('assets.index') }} ">Assets</a>
                         </li>
+                        @endcan
 
+                        @can('isUser')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('categories.index') }} ">Categories</a>
                         </li>
@@ -60,6 +63,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('user_requests.index') }} ">Requests</a>
                         </li>
+                        @endcan
 
                     </ul>
 
@@ -70,11 +74,15 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
+                            @can('isAdmin')
+                                
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
+
+                            @endcan
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

@@ -30,16 +30,32 @@
 									{{ $asset->category->name }}
 								</strong>
 							</p>
+							<div class="card-body">
+								<p class="card-text">{{ $asset->category->name }}
+									<span class="card-text badge float-right {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
+										{{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}} 
+									</span>
+								</p>
+							</div>
 
-							<a href="{{ route('assets.show', ['asset' => $asset->id])}}" class="btn btn-secondary btn-block my-1">View</a>
+							<div class="row card-footer">
+								{{-- <form class="col-4" action="{{ route('assets.show', ['asset' => $asset->id])}} " method="GET">
+									@csrf
+									<button class="btn btn-info btn-raised btn-block mt-3">View</button>
+								</form> --}}
 
-							<a href="{{ route('assets.edit', ['asset' => $asset->id])}}" class="btn btn-warning btn-block my-1">Edit</a>
+								<form class="col-8" action="{{ route('assets.edit', ['asset' => $asset->id])}} " method="GET">
+									@csrf
+									<button class="btn btn-info btn-raised btn-block mt-3">Edit</button>
+								</form>
+								
 
-							<form action="{{ route('assets.destroy', ['asset' => $asset->id ])}} " method="POST">
-								@csrf
-								@method('DELETE')
-								<button class="btn btn-danger btn-block my-1">Remove</button>
-							</form>
+								<form class="col-4" action="{{ route('assets.destroy', ['asset' => $asset->id ])}} " method="POST">
+									@csrf
+									@method('DELETE')
+									<button class="btn btn-danger btn-raised btn-block mt-3">Delete</button>
+								</form>
+							</div>
 							
 						</div>
 					</div>

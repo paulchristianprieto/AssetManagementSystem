@@ -16,7 +16,7 @@
 						<div class="card shadow bg-white rounded">
 							<div class="card-header" id="headingOne">
 								<div class="row">
-									<div class="col-9">
+									<div class="col-9 ">
 										<button 
 											class="btn btn-block text-left" 
 											type="button" 
@@ -37,21 +37,24 @@
 										</button>
 									</div>
 									
-									
+									@can('isAdmin')
 									{{-- actions --}}
-									<div class="col-3 text-center">
-										<span>
-											<a href="{{ route('request_assign', ['user_request'=>$request->id]) }}" class="btn btn-dark btn-raised bg-info">Approve</a>
-										</span>
+										<div class="col-3 text-center">
+											<span>
+												
+												<a href="{{ route('request_assign', ['user_request'=>$request->id]) }}" class="btn btn-dark btn-raised bg-info">Approve</a>
+												
+											</span>
 
-										{{-- <span class="float-right">
-											<form action="{{ route('vendors.destroy', ['vendor' => $vendor->id ])}} " method="POST">
-												@csrf
-												@method('DELETE')
-												<button class="btn btn-danger border-0">Remove</button>
-											</form>
-										</span> --}}
-									</div>
+											{{-- <span class="float-right">
+												<form action="{{ route('vendors.destroy', ['vendor' => $vendor->id ])}} " method="POST">
+													@csrf
+													@method('DELETE')
+													<button class="btn btn-danger border-0">Remove</button>
+												</form>
+											</span> --}}
+										</div>
+									@endcan
 								</div>
 
 							</div>
@@ -73,31 +76,7 @@
 												</tr>
 												<tr>
 													<td>Status</td>
-													<td>{{ $request->status->name }}
-
-														@can('isAdmin')
-														<form action="{{ route('user_requests.update', ['request'=> $request->id]) }} " method="POST" class="p-3 bg-secondary rounded">
-															@csrf
-															@method('PUT')
-
-															<label for="edit-request-{{$request->id}}">Change Status</label>
-															<button class="btn btn-primary mb-1 float-right ">Change Status</button>
-															<span>
-																<select class="custom-select mb-1" id="edit-request-{{$request->id}}" name="status">
-																	@foreach($statuses as $status)
-
-																		<option value="{{ $status->id}} " 
-																			@if ($request->status_id == $status->id)
-																				selected
-																			@endif
-																		> {{$status->name }} </option>
-
-																	@endforeach
-																</select>
-															</span>
-														</form>
-														@endcan
-													</td>
+													<td> <span class="badge-warning badge">{{ $request->status->name }}</span></td>
 												</tr>
 												<tr>
 													<td>Date</td>
@@ -169,11 +148,11 @@
 									
 									{{-- actions --}}
 									{{-- APPROVED TRANSACTIONS BUTTON --}}
-									<div class="col-3 float-right">
-										
+									@can('isAdmin')
 
+									<div class="col-3 float-right">
 										<span>
-											<a href="{{ route('request_returnpage', ['user_request'=>$request->id]) }}" class="btn btn-dark btn-raised bg-info">Mark as Returned</a>
+											<a href="{{ route('request_returnpage', ['user_request'=>$request->id]) }}" class="btn btn-dark btn-raised bg-success">Mark as Returned</a>
 										</span>
 
 										{{-- <span class="float-right">
@@ -184,6 +163,8 @@
 											</form>
 										</span> --}}
 									</div>
+
+									@endcan
 								</div>
 
 							</div>
@@ -205,31 +186,7 @@
 												</tr>
 												<tr>
 													<td>Status</td>
-													<td>{{ $request->status->name }}
-
-														@can('isAdmin')
-														<form action="{{ route('user_requests.update', ['request'=> $request->id]) }} " method="POST" class="p-3 bg-secondary rounded">
-															@csrf
-															@method('PUT')
-
-															<label for="edit-request-{{$request->id}}">Change Status</label>
-															<button class="btn btn-primary mb-1 float-right ">Change Status</button>
-															<span>
-																<select class="custom-select mb-1" id="edit-request-{{$request->id}}" name="status">
-																	@foreach($statuses as $status)
-
-																		<option value="{{ $status->id}} " 
-																			@if ($request->status_id == $status->id)
-																				selected
-																			@endif
-																		> {{$status->name }} </option>
-
-																	@endforeach
-																</select>
-															</span>
-														</form>
-														@endcan
-													</td>
+													<td> <span class="badge-primary badge">{{ $request->status->name }}</span></td>
 												</tr>
 												<tr>
 													<td>Date</td>
@@ -318,31 +275,7 @@
 												</tr>
 												<tr>
 													<td>Status</td>
-													<td>{{ $request->status->name }}
-
-														@can('isAdmin')
-														<form action="{{ route('user_requests.update', ['request'=> $request->id]) }} " method="POST" class="p-3 bg-secondary rounded">
-															@csrf
-															@method('PUT')
-
-															<label for="edit-request-{{$request->id}}">Change Status</label>
-															<button class="btn btn-primary mb-1 float-right ">Change Status</button>
-															<span>
-																<select class="custom-select mb-1" id="edit-request-{{$request->id}}" name="status">
-																	@foreach($statuses as $status)
-
-																		<option value="{{ $status->id}} " 
-																			@if ($request->status_id == $status->id)
-																				selected
-																			@endif
-																		> {{$status->name }} </option>
-
-																	@endforeach
-																</select>
-															</span>
-														</form>
-														@endcan
-													</td>
+													<td> <span class="badge-success badge">{{ $request->status->name }}</span></td>
 												</tr>
 												<tr>
 													<td>Date</td>

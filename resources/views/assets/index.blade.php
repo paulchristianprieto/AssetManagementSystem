@@ -25,31 +25,20 @@
 			<div class="col-12 col-md-10 mx-auto">
 				<div class="row">
 					@foreach ($assets as $asset)
-						<div class="col-12 col-md-4">
-							<div class="card shadow p-3 mb-5 bg-white rounded">
-								<img 
-								src="{{ url('/public/' . $asset->image )  }}" 
-								class="card-img-top"
-								>
-								<h5 class="card-title">
-									{{ $asset->name }}
-								</h5>
-								<p class="card-subtitle">
-									<strong>
-										{{ $asset->category->name }}
-									</strong>
+						<div class="col-12 card col-md-4"> 
+							<div class="card-header">{{ $asset->sku_number }}</div>
+							<img class="card-img-top" src="{{ url('/public/' . $asset->image) }}" style="height: 150px;">
+							<div class="card-body">
+								<h5 class="card-title">{{ $asset->name }}</h5>
+								<p class="card-text">{{ $asset->category->name }}
+									<span class="card-text badge float-right {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
+										{{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}} 
+									</span>
 								</p>
-								<a href="{{ route('assets.show', ['asset' => $asset->id])}}" class="btn btn-secondary btn-block my-1">View</a>
-
-								<a href="{{ route('assets.edit', ['asset' => $asset->id])}}" class="btn btn-warning btn-block my-1">Edit</a>
-
-								<form action="{{ route('assets.destroy', ['asset' => $asset->id ])}} " method="POST">
-									@csrf
-									@method('DELETE')
-									<button class="btn btn-danger btn-block my-1">Remove</button>
-								</form>
 							</div>
-
+							<div class="card-footer">
+								<a href="{{ route('assets.show', ['asset' => $asset->id]) }}" class="btn btn-primary btn-outline-primary float-right"><small class="text-muted">View Item</small></a>
+							</div>
 						</div>
 					@endforeach
 				</div>
