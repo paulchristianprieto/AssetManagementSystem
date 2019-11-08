@@ -304,14 +304,32 @@ class UserRequestController extends Controller
         // dd($request->all());
 
         $asset = Asset::find($request->input('asset_id'));
+        // dd($user_request);
+        // $user_request->pivot->asset_status = "Returned";
+            
+        // $transaction_products = $transaction->products;
+        // dd($transaction_products);
+        // foreach ($transaction_products as $product) {
+        //     dd($product->pivot);
+        //     $total += $product->pivot->subtotal;
+        // }
 
-        $user_request->assets()->attach(
-            $asset->id,
-            [
-                'asset_status' => "Returned",
-                'quantity' => $user_request->quantity
-            ]
-        );
+
+        // dd($user_request->assets);
+        // foreach ($user_request->assets as $asset) {
+
+        //     $asset->pivot->asset_status = "Returned";
+        // }
+
+
+        // updating pivot table
+        $user_request->assets()->updateExistingPivot($request->input('asset_id'), ['asset_status' => 'Returned'] );
+
+        // dd($user_request->assets);
+        // dd($user_request->asset);
+        // $user_request_assets = $user_request->asset_id; 
+        
+
         
         // $user_request->asset_id
 

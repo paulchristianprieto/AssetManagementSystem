@@ -17,7 +17,22 @@ class CategoryController extends Controller
     {
         $categories = Category::all();
         $assets = Asset::all();
-        return view('categories.index')->with('categories', $categories)->with('assets', $assets);
+
+        $category_available_items = [];
+        $total =0;
+
+        foreach ($categories as $category) {
+            foreach ($assets as $asset) {
+                if ($asset->category_id == $category->id) {
+                    $total += $asset->quantity_available;
+                }
+            }
+            $category_available_items[$category->id] = $total;
+            $total =0;
+        }
+        // dd($category_available_items);
+
+        return view('categories.index')->with('categories', $categories)->with('assets', $assets)->with('category_available_items', $category_available_items);
     }
 
     /**

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Vendor;
 use App\Asset_status;
 use App\Category;
+use App\User_request;
 use DB;
 use Str;
 
@@ -21,6 +22,8 @@ class AssetController extends Controller
     public function index()
     {
         $assets = Asset::all();
+        // $lent_items = User_request::find($ass)
+
         return view('assets.index')->with('assets', $assets);
     }
 
@@ -33,6 +36,7 @@ class AssetController extends Controller
     {
         $vendors = Vendor::all();
         $categories = Category::all();
+
         return view('assets.create')->with('vendors', $vendors)->with('categories', $categories);
     }
 
