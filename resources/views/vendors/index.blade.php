@@ -27,7 +27,7 @@
 				<div class="card shadow bg-white rounded">
 					<div class="card-header" id="headingOne">
 						<div class="row">
-							<div class="col-10">
+							<div class="col-9">
 								<button 
 									class="btn btn-block text-left" 
 									type="button" 
@@ -42,7 +42,7 @@
 							
 							
 							{{-- actions --}}
-							<div class="float-right col-2">
+							<div class="float-right col-3 text-center">
 								<span>
 									<a href="{{ route('vendors.show', ['vendor' => $vendor->id])}}" class="btn btn-dark bg-info btn-raised">View</a>
 								</span>

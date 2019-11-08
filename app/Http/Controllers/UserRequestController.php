@@ -105,14 +105,17 @@ class UserRequestController extends Controller
      */
     public function show(User_request $user_request)
     {
-        // $userRequests = User_request::where('user_id', $user_id)->orderBy('created_at', 'DESC')->get();
-        if($user_request->asset_id)
-            $asset = Asset::find($user_request->asset_id);
-
-
         $category_items = Asset::where('category_id', $user_request->category_id)->get();
+        // $userRequests = User_request::where('user_id', $user_id)->orderBy('created_at', 'DESC')->get();
+        if($user_request->asset_id){
+            $asset = Asset::find($user_request->asset_id);
+            return view('user_requests.show', ['user_request'=>$user_request])->with('category_items', $category_items)->with('asset', $asset);
+        }
 
-        return view('user_requests.show', ['user_request'=>$user_request])->with('category_items', $category_items)->with('asset', $asset);
+
+        
+        return view('user_requests.show', ['user_request'=>$user_request])->with('category_items', $category_items);
+        
     }
 
     /**
@@ -209,12 +212,6 @@ class UserRequestController extends Controller
         return view('user_requests.create')->with('category', $category_id);
     }
 
-    public function return_asset(){
-
-
-        echo "Im returning my asset";
-    }
-
     public function approve(Request $request, User_request $user_request)
     {
         // dd( $request->input('asset_id') );
@@ -238,6 +235,10 @@ class UserRequestController extends Controller
         // $products = Product::find($cart_ids);
         // $assets_quantities = $request->input('quantity');
         // $assets_items = $request->input('category_item_id');
+
+
+        // validate if quantity is less than available quantity // this wont show in UI but no validation yet in backend
+
 
         $asset = Asset::find($request->input('asset_id'));
 
@@ -275,6 +276,9 @@ class UserRequestController extends Controller
         // $user_request->asset_id
 
         $asset->quantity_available = $asset->quantity_available - $user_request->quantity;
+        if ($asset->quantity_available < 1) {
+            $asset->available = false;
+        }
         $asset->save();
         $user_request->asset_id = $request->input('asset_id');
         $user_request->status_id = 2;
@@ -288,5 +292,42 @@ class UserRequestController extends Controller
         $assets = Asset::all();
         return view('user_requests.assign')->with('user_request', $user_request)->with('assets', $assets);
     }
+
+    public function return_page(User_request $user_request){
+        // dd($user_request);
+        $assets = Asset::all();
+        return view('user_requests.return')->with('user_request', $user_request)->with('assets', $assets);
+    }
+
+    public function return_asset(Request $request, User_request $user_request){
+        // dd($user_request);
+        // dd($request->all());
+
+        $asset = Asset::find($request->input('asset_id'));
+
+        $user_request->assets()->attach(
+            $asset->id,
+            [
+                'asset_status' => "Returned",
+                'quantity' => $user_request->quantity
+            ]
+        );
+        
+        // $user_request->asset_id
+
+        $asset->quantity_available = $asset->quantity_available + $user_request->quantity;
+        if ($asset->quantity_available > 0) {
+            $asset->available = true;
+        }
+        $asset->save();
+
+        $user_request->asset_id = $request->input('asset_id');
+        $user_request->status_id = 3;
+        $user_request->save();
+
+        return redirect(route('user_requests.show', ['user_request' => $user_request->id]));
+    }
+
+    
 
 }
