@@ -64,9 +64,10 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Category $category)
     {
-        //
+        $this->authorize('create', $category);
+        return redirect(route('categories.index'));
     }
 
     /**
@@ -75,11 +76,11 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Category $category)
     {
         // dd($request->all());
         // validate
-
+        $this->authorize('create', $category);
         $new_category = new Category;
         $new_category->name = $request->input('name');
         $new_category->category_sku = $request->input('category_sku');
@@ -110,6 +111,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        $this->authorize('update', $category);
         return view('categories.edit')->with('category', $category);
     }
 
@@ -122,6 +124,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        $this->authorize('update', $category);
         $name = $request->input('name');
         $category_sku = $request->input('category_sku');
         $description = $request->input('description');
@@ -152,6 +155,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        $this->authorize('delete', $category);
         $category->delete();
         return redirect(route('categories.index'))->with('destroy_success', 'Category Removed.');
     }

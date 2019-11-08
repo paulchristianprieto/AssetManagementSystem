@@ -18,7 +18,7 @@ class VendorPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->role_id === 1;
     }
 
     /**
@@ -30,7 +30,7 @@ class VendorPolicy
      */
     public function view(User $user, Vendor $vendor)
     {
-        //
+        return $user->role_id === 1;
     }
 
     /**

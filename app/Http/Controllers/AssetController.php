@@ -19,12 +19,35 @@ class AssetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Asset $asset)
     {
+        $this->authorize('viewAny', $asset);
         $assets = Asset::all();
+        $user_requests = User_request::all();
+        $lent_items = [];
+        // accessing pivot table
+        foreach ($assets as $asset) {
+            $temp =0;
+            // echo $asset->id;
+            $lent_items[$asset->id] =0;
+            foreach ($user_requests as $user_request) {
+                // dd($user_request->assets);
+                foreach ($user_request->assets as $user_request_asset) {
+                    // dd($user_request_asset->pivot->asset_id);
+                    // dd( $user_request_asset->pivot->quantity);
+                    if($user_request_asset->pivot->asset_status == "Lent"){
+                        $temp += $user_request_asset->pivot->quantity;
+                    }
+                }
+            }
+            $lent_items[$asset->id] = $temp;
+        }
+        // dd($lent_items);
         // $lent_items = User_request::find($ass)
 
-        return view('assets.index')->with('assets', $assets);
+        return view('assets.index')
+            ->with('assets', $assets)
+            ->with('lent_items', $lent_items);
     }
 
     /**
@@ -32,8 +55,9 @@ class AssetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Asset $asset)
     {
+        $this->authorize('create', $asset);
         $vendors = Vendor::all();
         $categories = Category::all();
 
@@ -46,8 +70,10 @@ class AssetController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,Asset $asset)
     {
+
+        $this->authorize('create', $asset);
         // dd($request->all());
         // validate
 
@@ -57,10 +83,6 @@ class AssetController extends Controller
         $random_chars = Str::random(10);
         $new_file_name = date('Y-m-d-H-i-s') . "_" . $random_chars . "_" . $file_name . "." . $file_extension;
         $file_path = $file->storeAs('images', $new_file_name, 'public');
-
-        
-
-        
 
         $name = $request->input('name');
         $image = $file_path;
@@ -116,6 +138,7 @@ class AssetController extends Controller
      */
     public function edit(Asset $asset)
     {
+        $this->authorize('update', $asset);
         $vendors = Vendor::all();
         $categories = Category::all();
         $asset_statuses = Asset_status::all();
@@ -135,7 +158,7 @@ class AssetController extends Controller
      */
     public function update(Request $request, Asset $asset)
     {
-
+        $this->authorize('update', $asset);
         
         $available = $request->input('available');
         $name = $request->input('name');
@@ -193,6 +216,7 @@ class AssetController extends Controller
      */
     public function destroy(Asset $asset)
     {
+        $this->authorize('update', $asset);
         $asset->delete();
         return redirect(route('assets.index'))->with('destroy_success', 'Asset Removed.');    
     }

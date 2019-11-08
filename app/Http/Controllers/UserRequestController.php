@@ -19,8 +19,9 @@ class UserRequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User_request $user_request)
     {
+        $this->authorize('viewAny', $user_request);
         $statuses = Status::all();
 
         if (Auth::user()->role_id === 2) {
@@ -46,9 +47,11 @@ class UserRequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, Category $category)
+    public function create(Request $request, Category $category, User_request $user_request)
     {
-        dd($request);
+        // dd($request);
+        $this->authorize('create', $user_request);
+
         return view('user_requests.create');
     }
 
@@ -58,8 +61,9 @@ class UserRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, User_request $user_request)
     {
+        $this->authorize('create', $user_request);
         /*
         "category_id" => "2"
         "borrow_date" => "11/30/2019"
@@ -104,7 +108,8 @@ class UserRequestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(User_request $user_request)
-    {
+    {  
+        $this->authorize('view', $user_request);
         $category_items = Asset::where('category_id', $user_request->category_id)->get();
         // $userRequests = User_request::where('user_id', $user_id)->orderBy('created_at', 'DESC')->get();
         if($user_request->asset_id){
@@ -138,6 +143,7 @@ class UserRequestController extends Controller
      */
     public function update(Request $request, User_request $user_request)
     {
+        $this->authorize('update', $user_request);
         // dd($request->all());
         /*
           "request_id" => "4"
@@ -207,13 +213,15 @@ class UserRequestController extends Controller
         //
     }
 
-    public function request_category(Category $category_id){
+    public function request_category(Category $category_id, User_request $user_request){
         // dd($category_id);
+        $this->authorize('create', $user_request);
         return view('user_requests.create')->with('category', $category_id);
     }
 
     public function approve(Request $request, User_request $user_request)
     {
+        $this->authorize('update', $user_request);
         // dd( $request->input('asset_id') );
         // dd($user_request);
         /*
@@ -238,7 +246,7 @@ class UserRequestController extends Controller
 
 
         // validate if quantity is less than available quantity // this wont show in UI but no validation yet in backend
-
+        $this->authorize('update', $user_request);
 
         $asset = Asset::find($request->input('asset_id'));
 
@@ -289,12 +297,15 @@ class UserRequestController extends Controller
 
     public function assign(User_request $user_request){
         // dd($user_request);
+
+        $this->authorize('update', $user_request);
         $assets = Asset::all();
         return view('user_requests.assign')->with('user_request', $user_request)->with('assets', $assets);
     }
 
     public function return_page(User_request $user_request){
         // dd($user_request);
+        $this->authorize('update', $user_request);
         $assets = Asset::all();
         return view('user_requests.return')->with('user_request', $user_request)->with('assets', $assets);
     }
@@ -302,7 +313,7 @@ class UserRequestController extends Controller
     public function return_asset(Request $request, User_request $user_request){
         // dd($user_request);
         // dd($request->all());
-
+        $this->authorize('update', $user_request);
         $asset = Asset::find($request->input('asset_id'));
         // dd($user_request);
         // $user_request->pivot->asset_status = "Returned";

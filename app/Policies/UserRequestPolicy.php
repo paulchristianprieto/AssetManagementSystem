@@ -18,7 +18,7 @@ class UserRequestPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->role_id;
     }
 
     /**
@@ -30,7 +30,7 @@ class UserRequestPolicy
      */
     public function view(User $user, User_request $userRequest)
     {
-        //
+        return $user->role_id;
     }
 
     /**
@@ -41,7 +41,7 @@ class UserRequestPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->role_id === 2;
     }
 
     /**

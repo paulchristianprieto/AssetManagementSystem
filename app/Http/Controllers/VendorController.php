@@ -15,8 +15,9 @@ class VendorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Vendor $vendor)
     {
+        $this->authorize('viewAny', $vendor);
         $vendors = Vendor::all();
         $assets = Asset::all();
         return view('vendors.index')->with('vendors', $vendors)->with('assets', $assets);
@@ -27,8 +28,9 @@ class VendorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Vendor $vendor)
     {
+        $this->authorize('create', $vendor);
         return view('vendors.create');
     }
 
@@ -38,8 +40,9 @@ class VendorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Vendor $vendor)
     {
+        $this->authorize('create', $vendor);
         // $request->validate([]);
         // $request->validate([
         //     'name' => 'required|string',
@@ -104,6 +107,7 @@ class VendorController extends Controller
      */
     public function show(Vendor $vendor)
     {
+        $this->authorize('view', $vendor);
         return view('vendors.show')->with('vendor', $vendor);
     }
 
@@ -115,6 +119,7 @@ class VendorController extends Controller
      */
     public function edit(Vendor $vendor)
     {
+        $this->authorize('update', $vendor);
         return view('vendors.edit')->with('vendor', $vendor);
     }
 
@@ -127,7 +132,7 @@ class VendorController extends Controller
      */
     public function update(Request $request, Vendor $vendor)
     {
-
+        $this->authorize('update', $vendor);
         // validate
 
         $name = $request->input('name');
@@ -181,6 +186,7 @@ class VendorController extends Controller
      */
     public function destroy(Vendor $vendor)
     {
+        $this->authorize('delete', $vendor);
         $vendor->delete();
         return redirect(route('vendors.index'))->with('destroy_success', 'Vendor Removed.');
     }

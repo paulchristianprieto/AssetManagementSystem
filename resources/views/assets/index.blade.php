@@ -35,6 +35,13 @@
 										{{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}} 
 									</span>
 								</p>
+
+								{{-- {{ dd($lent_items) }} --}}
+								<p class="card-text">{{ $asset->vendor->name }}
+									<span class="card-text badge float-right badge-warning ">
+										Lent: {{ $lent_items[$asset->id] }}
+									</span>
+								</p>
 							</div>
 							<div class="card-footer">
 								<a href="{{ route('assets.show', ['asset' => $asset->id]) }}" class="btn btn-primary btn-outline-primary float-right"><small class="text-muted">View Item</small></a>

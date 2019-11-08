@@ -37,7 +37,8 @@
 									</span>
 								</p>
 							</div>
-
+							@can('isAdmin')
+							    
 							<div class="row card-footer">
 								{{-- <form class="col-4" action="{{ route('assets.show', ['asset' => $asset->id])}} " method="GET">
 									@csrf
@@ -56,6 +57,7 @@
 									<button class="btn btn-danger btn-raised btn-block mt-3">Delete</button>
 								</form>
 							</div>
+							@endcan
 							
 						</div>
 					</div>

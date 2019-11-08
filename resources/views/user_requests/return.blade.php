@@ -91,13 +91,21 @@
 					</div>
 				</div>
 
-				<h2 class="mt-3 text-center">Return {{$user_request->category->name}} </h2>
+				<h2 class="mt-3 text-center">Return 
+					{{-- ACCESS PIVOT --}}
+					@foreach($user_request->assets as $asset)
+						{{$asset->name}}
+					@endforeach
+				</h2>
 				
 				<div class="container-fluid">
 					<div class="row">
 						<div class="card-group col-12">
+
+
 						@foreach($assets as $asset)
-							@if($asset->category_id == $user_request->category_id && $asset->quantity_available >= $user_request->quantity)
+						{{-- {{dd($asset->id, $user_request->asset_id)}} --}}
+							@if($asset->category_id == $user_request->category_id && $asset->id == $user_request->asset_id)
 								<div class="card col-3"> 
 									<div class="card-header">{{ $asset->sku_number }}</div>
 									<img class="card-img-top img-fluid" src="{{ url('/public/' . $asset->image) }}">
