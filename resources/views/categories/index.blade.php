@@ -26,17 +26,34 @@
 				
 
 				<div class="card shadow bg-white rounded">
-					<a data-toggle="collapse" data-target="#category-{{$category->id }}" aria-expanded="false" aria-controls="collapseOne"> 
-						<div class="card-header" id="headingOne">
-							<div class="mb-0">
+					<div class="card-header" id="headingOne">
+						<div class="row">
+							<div class="col-8">
+								<button 
+									class="btn btn-block text-left" 
+									type="button" 
+									data-toggle="collapse" 
+									data-target="#category-{{$category->id}}" 
+									aria-expanded="false" 
+									aria-controls="collapseOne">
+									<h5 class="btn-block"><strong><span class="float-left">{{$category->name }}</span></strong></h5> 
+									<span class="ml-2 badge-pill 
 
-								<span class="float-left">{{$category->name }}</span>
-								<span class="ml-2 badge-pill 
+									{{ ($category_available_items[$category->id]) ? "badge-info": "badge-danger"}}
+									"> 
+										Available: {{ $category_available_items[$category->id] }}
+									</span>
 
-								{{ ($category_available_items[$category->id]) ? "badge-info": "badge-danger"}}
-								"> 
-									{{ $category_available_items[$category->id] }}
-								</span>
+									@can('isAdmin')
+										@if ($category_lent_items[$category->id])
+										<span class="ml-2 badge-pill badge-warning"> 
+											Lent: {{ $category_lent_items[$category->id] }}
+										</span>
+										@endif
+									@endcan
+								</button>
+							</div>
+							<div class="col-4">
 								<div class="float-right">
 
 									@cannot('isAdmin')
@@ -64,11 +81,9 @@
 									</span>
 									@endcan
 								</div>
-								
 							</div>
-
 						</div>
-					</a>
+					</div>
 
 					<div id="category-{{$category->id }}" class="collapse" aria-labelledby="headingOne" data-parent="#categoriesAccordion">
 						<div class="card-body">
@@ -77,17 +92,25 @@
 							<div class="container-fluid">
 								<div class="row">
 									@foreach($assets as $asset)
-										{{-- {{dd($asset->vendor->id)}} --}}
+
 										@if($asset->category->id == $category->id)
-											<div class="col-12 col-md-6 card">
-												<div class="card-img-top">
-													<img class="img-thumbnail" src="{{ url('/public/' . $asset->image) }}" alt="">
+											<div class="card col-4"> 
+												<div class="card-header">{{ $asset->sku_number }}</div>
+												<img class="card-img-top" src="{{ url('/public/' . $asset->image) }}" style="height: 150px;">
+												<div class="card-body">
+													<h5 class="card-title">{{ $asset->name }}</h5>
+													<p class="card-text">{{ $asset->category->name }}
+														<span class="card-text badge float-right {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
+															{{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}} 
+														</span>
+													</p>
 												</div>
-												<div class="card-title">
-													{{ $asset->name }}
+												<div class="card-footer">
+													<a href="{{ route('assets.show', ['asset' => $asset->id]) }}" class="btn btn-primary btn-outline-primary float-right"><small class="text-muted">View Item</small></a>
 												</div>
 											</div>
 										@endif
+
 									@endforeach
 								</div>
 							</div>
