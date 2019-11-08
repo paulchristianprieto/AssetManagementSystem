@@ -53,7 +53,7 @@ class UserRequestPolicy
      */
     public function update(User $user, User_request $userRequest)
     {
-        //
+        return $user->role_id === 1;
     }
 
     /**
@@ -65,7 +65,7 @@ class UserRequestPolicy
      */
     public function delete(User $user, User_request $userRequest)
     {
-        //
+        return $user->role_id === 1;
     }
 
     /**
