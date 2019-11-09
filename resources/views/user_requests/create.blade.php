@@ -26,6 +26,8 @@
 							</div>
 						</div>
 					</div>
+					
+					
 
 					<div class="form-group">
 					    <label for="quantity" class="bmd-label-floating">Quantity:</label>

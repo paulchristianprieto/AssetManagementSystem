@@ -85,6 +85,10 @@ class UserRequestController extends Controller
         $description = $request->input('description');
         $borrow_date = $request->input('borrow_date');
         $return_date = $request->input('return_date');
+
+        $borrow_date = date('Y-m-d H:i:s', strtotime($borrow_date)); 
+        $return_date = date('Y-m-d H:i:s', strtotime($return_date)); 
+
         $user_id = Auth::user()->id;
         $category_id = $request->input('category_id');
 
