@@ -146,7 +146,7 @@ class CategoryController extends Controller
     public function create(Category $category)
     {
         $this->authorize('create', $category);
-        return redirect(route('categories.index'));
+        return view('categories.create');
     }
 
     /**
@@ -158,8 +158,16 @@ class CategoryController extends Controller
     public function store(Request $request, Category $category)
     {
         // dd($request->all());
-        // validate
         $this->authorize('create', $category);
+        // validate
+
+        $request->validate([
+            'name' => 'required|string',
+            'category_sku' => 'required|string|max:4|unique:categories,category_sku',
+            // 'image' => 'required|image|max:30000',
+            'description' => 'nullable|string|max:191'
+        ]);
+
         $new_category = new Category;
         $new_category->name = $request->input('name');
         $new_category->category_sku = $request->input('category_sku');
@@ -168,7 +176,7 @@ class CategoryController extends Controller
 
         $request->session()->flash('category_message', 'Category successfully added!');
 
-        return redirect(route('categories.index'));
+        return redirect(route('request_category', ['category_id'=>1]));
     }
 
     /**

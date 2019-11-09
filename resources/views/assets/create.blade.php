@@ -32,8 +32,8 @@
 				<form action="{{ route('assets.store') }} " method="POST" enctype="multipart/form-data" id="asset-form" >
 					@csrf
 					<div class="form-group row">
-						<div class="form-group col-md-9">
-							<label for="name">Name:</label>
+						<div class="form-group col-md-8">
+							<label for="name">Asset Name:</label>
 							<input type="text" class="form-control" name="name" id="name" placeholder="Asset Name" aria-describedby="nameError">
 							@if ($errors->has('name'))
 								<small id="nameError" class="form-text text-muted alert-danger alert">
@@ -41,8 +41,8 @@
 								</small>							
 							@endif
 						</div>
-						<div class="form-group col-md-3">
-							<label for="quantity">Quantity:</label>
+						<div class="form-group col-md-4">
+							<label for="quantity">Asset Quantity:</label>
 							<input type="number" class="form-control" name="quantity" id="quantity" placeholder="1" min="1" aria-describedby="quantityError">
 							@if ($errors->has('quantity'))
 								<small id="quantityError" class="form-text text-muted alert-danger alert">
@@ -53,7 +53,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="form-group col-md-8">
-							<label for="description">Description:</label>
+							<label for="description">Asset Description:</label>
 							<textarea 
 								name="description" 
 								id="description" 
@@ -71,7 +71,7 @@
 							@endif
 						</div>
 						<div class="form-group col-md-4">
-							<label for="image">Image:</label>
+							<label for="image">Asset Image:</label>
 							<input type="file" name="image" id="image" class="form-control-file" aria-describedby="imageError">
 							@if ($errors->has('image'))
 								<small id="imageError" class="form-text text-muted alert-danger alert">
@@ -79,7 +79,7 @@
 								</small>							
 							@endif
 							<div class="form-group row">
-								<div class="form-group col-12 my-3">
+								<div class="form-group col-12 mt-3">
 									<label for="vendor">Asset Vendor:</label>
 									<select class="form-control" id="vendor" name="vendor" aria-describedby="vendorError">
 										<option selected disabled>Select Vendor</option>
@@ -93,7 +93,7 @@
 										</small>							
 									@endif
 								</div>
-								<div class="form-group col-12 my-3">
+								<div class="form-group col-12">
 									<label for="category">Asset Category:</label>
 									<select class="form-control" id="category" name="category" aria-describedby="categoryError">
 										<option selected disabled>Select Category</option>

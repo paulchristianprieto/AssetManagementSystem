@@ -86,10 +86,10 @@ class VendorController extends Controller
         $request->validate([
             "sku_id" => 'required|string|max:4|unique:vendors,vendor_sku',
             "name" => 'required|string',
-            "address" => 'nullable|string',
+            "address" => 'required|string',
             'image' => 'image|max:30000',
             "company_email" => 'email:rfc',
-            "description" => 'nullable|string'
+            "description" => 'nullable|string|max:191'
         ]);
 
         $name = $request->input('name');
