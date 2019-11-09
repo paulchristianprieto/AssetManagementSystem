@@ -53,8 +53,13 @@ class CategoryController extends Controller
         }
         // dd($category_available_items, $category_lent_items);
 
+        foreach ($user_requests as $user_request) {
+            foreach ($user_request->assets as $user_request_asset) {
+                // dd($user_request_asset);
+            }
+        }
         
-        
+        dd($total_available);
 
         return view('categories.index')->with('categories', $categories)
             ->with('assets', $assets)

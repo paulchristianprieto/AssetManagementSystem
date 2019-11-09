@@ -31,127 +31,146 @@
 				</ul>
 			</nav>
 
-
+			@cannot('isAdmin')
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12 mx-auto">
-						<h3 class="font-weight-bold text-uppercase">Request a {{$categories[$category_id-1]->name }}</h3>
-						<div class="mb-4">
-							<span class="ml-2 badge-pill 
-
-							{{ ($category_available_items[$category_id]) ? "badge-info": "badge-danger"}}
-							"> 
-								Available: {{ $category_available_items[$category_id] }}
-							</span>
-							@can('isAdmin')
-								@if ($category_lent_items[$category_id])
-								<span class="ml-2 badge-pill badge-warning"> 
-									Lent: {{ $category_lent_items[$category_id] }}
-								</span>
-								@endif
-							@endcan
-						</div>
-
-
 						<form action="{{ route('user_requests.store') }}" method="POST">
 							@csrf
 
 							<input type="hidden" name="category_id" value="{{$category->id}}">
-							{{-- <div class="form-group container">
+							<div class="container-fluid my-3 col-8">
+								<h3 class="font-weight-bold text-uppercase">Request a {{$categories[$category_id-1]->name }}</h3>
+								<div class="mb-4">
+									<span class="ml-2 badge-pill 
+
+									{{ ($category_available_items[$category_id]) ? "badge-info": "badge-danger"}}
+									"> 
+										Available: {{ $category_available_items[$category_id] }}
+									</span>
+									@can('isAdmin')
+										@if ($category_lent_items[$category_id])
+										<span class="ml-2 badge-pill badge-warning"> 
+											Lent: {{ $category_lent_items[$category_id] }}
+										</span>
+										@endif
+									@endcan
+								</div>
+
 								<div class="row">
-									<div class="col-6 p-0">
-										<label for="borrow_date"> Borrow Date: </label>
-										<input class="my-2" id="borrow_date" width="276" name="borrow_date" type="datetime-local" />
-									</div>
-									<div class="p-0 col-6">
-										<label for="return_date"> Return Date: </label>
-										<input class="my-2" id="return_date" width="276" name="return_date" type="datetime-local" />
+									<div class='col-md-6'>
+								        <div class="form-group">
+								        	<label for="borrow_date" class="form-check-label">Borrow Date: </label>
+								           	<div class="input-group date" id="datetimepicker7" data-target-input="nearest">
+								                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker7" id="borrow_date" name="borrow_date" />
+								                <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
+								                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								    <div class='col-md-6'>
+								        <div class="form-group">
+								        	<label for="return_date" class="form-check-label">Borrow Date: </label>
+								           	<div class="input-group date" id="datetimepicker8" data-target-input="nearest">
+								                <input type="text" id="return_date" class="form-control datetimepicker-input" data-target="#datetimepicker8" name="return_date" />
+								                <div class="input-group-append" data-target="#datetimepicker8" data-toggle="datetimepicker">
+								                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="quantity">Quantity: </label>
+											<input type="number" class="input-group form-control" name="quantity">
+										</div>
 									</div>
 								</div>
-							</div> --}}
-							
-							    <div class='col-md-5'>
-							        <div class="form-group">
-							           <div class="input-group date" id="datetimepicker7" data-target-input="nearest">
-							                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker7" name="borrow_date" />
-							                <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
-							                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-							                </div>
-							            </div>
-							        </div>
-							    </div>
-							    <div class='col-md-5'>
-							        <div class="form-group">
-							           <div class="input-group date" id="datetimepicker8" data-target-input="nearest">
-							                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker8" name="return_date" />
-							                <div class="input-group-append" data-target="#datetimepicker8" data-toggle="datetimepicker">
-							                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-							                </div>
-							            </div>
-							        </div>
-							    </div>
-							
-							<div class="form-group">
-								<input type="number" name="quantity">
+								
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="description">Request Description (optional):</label>
+											<textarea 
+												name="description" 
+												id="description" 
+												class="form-control" 
+												min="1" 
+												cols="30" 
+												rows="10"
+											></textarea>
+										</div>
+									</div>
+								</div>
+								
+								<button class="btn btn-primary">Submit Request</button>
 							</div>
-							
-
-							<div class="form-group">
-								<label for="description">Request Description (optional):</label>
-								<textarea 
-									name="description" 
-									id="description" 
-									class="form-control" 
-									min="1" 
-									cols="30" 
-									rows="10"
-								></textarea>
-							</div>
-
-							<button class="btn btn-primary btn-outline-primary">Submit Request</button>
 						</form>
 					</div>
 				</div>
 			</div>
+			@endcannot
 
 			@can('isAdmin')
 			<div class="row">
 				@foreach($assets as $asset)
-				<div class="card col-4 m-2"> 
-					<div class="card-header">{{ $asset->sku_number }}</div>
-					<img class="card-img-top" src="{{ url('/public/' . $asset->image) }}" style="height: 150px;">
+				<div class="card col-4 m-2">
+					<div class="wrapper">
+						<img class="card-img-top img-fluid" src="{{ url('/public/' . $asset->image) }}" alt="{{ $asset->name}}">
+					</div>
+					<h4 class="card-title text-center">{{ $asset->name }}</h4>
 					<div class="card-body">
-						<h5 class="card-title">{{ $asset->name }}</h5>
-						<p class="card-text">{{ $asset->category->name }}
+						<p class="card-text">{{ $asset->category->name }} 
 							<span class="card-text badge float-right {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
 								{{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}} 
 							</span>
 						</p>
-					</div>
-					<div class="card-footer">
-						<a href="{{ route('assets.show', ['asset' => $asset->id]) }}" class="btn btn-primary btn-outline-primary float-right"><small class="text-muted">View Item</small></a>
+						<p class="card-text">{{ $asset->vendor->name }} 
+							<span class="card-text badge float-right badge-warning">
+								Lent: 1{{ dd($category_lent_items) }}
+								{{-- {{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}}  --}}
+							</span>
+						</p>
+						
+						<div class="card-footer bg-transparent row ">
+							<div class="col-6">
+								<a href="{{ route('assets.show', ['asset' => $asset->id]) }}" class="btn btn-primary btn-block ">View Item</a>
+							</div>
+							<div class="col-6">
+								<a href="{{ route('assets.edit', ['asset' => $asset->id]) }}" class="btn btn-warning btn-block ">Edit Item</a>
+							</div>
+							
+						</div>
+						
+						
 					</div>
 				</div>
+
 				@endforeach
 			</div>
 			@endcan
 		</div>
-
+		
 		@can('isAdmin')
-		<div class="col-12 col-md-2">
+		<div class="col-12 col-md-2 my-3">
+			<h5 class="text-center mb-3">Add Category</h5>
 			<form action="{{ route('categories.store') }}" method="POST">
 				@csrf
 				<div class="form-group">
-				    <label for="category" class="bmd-label-floating">Category</label>
+				    <label for="category" class="bmd-label-floating">Category Name: </label>
 				    <input type="text" class="form-control" id="category" name="name">
 				</div>
 				<div class="form-group">
 				    <label for="category_sku" class="bmd-label-floating">Category Code:</label>
-				    <input type="text" class="form-control" id="category_sku" name="category_sku">
-				    <span class="bmd-help">Ex. Monitor = MON</span>
+				    <input type="text" class="form-control" id="category_sku" name="category_sku" placeholder="Ex. Monitor = MON">
+				    
 				</div>
 				<div class="row">
-					<button class="btn btn-light bg-success col-10 mx-auto my-2">Add Category</button>
+					<button class="btn btn-light col-10 mx-auto my-2">Add Category</button>
 				</div>
 			</form>
 		</div>
