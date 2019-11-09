@@ -6,6 +6,7 @@ use App\User_request;
 use App\Category;
 use App\Status;
 use App\Asset;
+use App\Asset_status;
 
 use Illuminate\Http\Request;
 
@@ -24,6 +25,31 @@ class UserRequestController extends Controller
         $this->authorize('viewAny', $user_request);
         $statuses = Status::all();
         $categories = Category::all();
+        $assets = Asset::all();
+        $user_requests = User_request::all();
+        $asset_statuses = Asset_status::all();
+        $lent_items = [];
+        // accessing pivot table
+        foreach ($assets as $asset) {
+            $temp =0;
+            // echo $asset->id;
+            $lent_items[$asset->id] =0;
+            foreach ($user_requests as $user_request) {
+                // dd($user_request->assets);
+                foreach ($user_request->assets as $user_request_asset) {
+                    // dd($user_request_asset->pivot->asset_id);
+                    // dd( $user_request_asset->pivot->quantity);
+                    // dd($asset);
+
+                    if($user_request_asset->pivot->asset_status == "Lent" && $user_request_asset->pivot->asset_id == $asset->id){
+                        $temp += $user_request_asset->pivot->quantity;
+
+                        // echo $user_request_asset->pivot->quantity;
+                    }
+                }
+            }
+            $lent_items[$asset->id] = $temp;
+        }
 
         if (Auth::user()->role_id === 2) {
             $user_id = Auth::user()->id;
@@ -31,6 +57,9 @@ class UserRequestController extends Controller
             return view('user_requests.index')
                 ->with('userRequests', $userRequests)
                 ->with('statuses', $statuses)
+                ->with('assets', $assets)
+                ->with('lent_items', $lent_items)
+                ->with('asset_statuses', $asset_statuses)
                 ->with('categories', $categories);
         }
 
@@ -39,6 +68,9 @@ class UserRequestController extends Controller
             return view('user_requests.index')
                 ->with('userRequests', $userRequests)
                 ->with('statuses', $statuses)
+                ->with('assets', $assets)
+                ->with('lent_items', $lent_items)
+                ->with('asset_statuses', $asset_statuses)
                 ->with('categories', $categories);
         }
 
