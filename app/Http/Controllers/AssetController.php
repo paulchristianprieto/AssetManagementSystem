@@ -85,7 +85,19 @@ class AssetController extends Controller
 
         $this->authorize('create', $asset);
         // dd($request->all());
-        // validate
+        // "name" => "123"
+        // "quantity" => "123"
+        // "description" => "123"
+        // "vendor" => "1"
+        // "category" => "3"
+        $request->validate([
+            "name" => "required|string",
+            "quantity" => "required|digits_between:1,9999",
+            "description" => "required|string|max:191",
+            "vendor" => "required",
+            "category" => "required",
+            "image" => "required|image|max:30000"
+        ]);
 
         $file = $request->file('image');
         $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
