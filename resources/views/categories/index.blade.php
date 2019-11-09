@@ -3,7 +3,7 @@
 @section('content')
 
 
-<div class="container-fluid">
+<div class="container-fluid ">
 	<div class="row">
 		<div class="col-12 col-md-8 offset-2">
 
@@ -118,23 +118,32 @@
 			@can('isAdmin')
 			<div class="row">
 				@foreach($assets as $asset)
-				<div class="card col-4 m-2">
+				<div class="card col-4 m-2 shadow p-3 mb-5 bg-white rounded">
 					<div class="wrapper">
 						<img class="card-img-top img-fluid" src="{{ url('/public/' . $asset->image) }}" alt="{{ $asset->name}}">
 					</div>
 					<h4 class="card-title text-center">{{ $asset->name }}</h4>
-					<div class="card-body">
-						<p class="card-text">{{ $asset->category->name }} 
-							<span class="card-text badge float-right {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
+					<div class="row">
+						<div class="col-12 mx-auto text-center">
+							<span class="card-text badge  {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
 								{{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}} 
 							</span>
-						</p>
-						<p class="card-text">{{ $asset->vendor->name }} 
-							<span class="card-text badge float-right badge-warning">
-								Lent: 1{{ dd($category_lent_items) }}
+							<span class="card-text badge  badge-warning">
+								Lent: {{ $lent_items[$asset->id] }}
 								{{-- {{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}}  --}}
 							</span>
+						</div>
+					</div>
+					<div class="card-body">
+						<p class="card-text">Category: <strong>{{ $asset->category->name }} </strong>
+							
 						</p>
+						<p class="card-text">Vendor: <strong>{{ $asset->vendor->name }} </strong>
+							
+						</p>
+						<p class="card-text">SKU: <strong class="float-right" >{{ $asset->sku_number }}</strong></p>
+						<p class="card-text">Condition: <strong class="float-right" >{{ $asset->asset_status->name }}</strong></p>
+						<p class="card-text">Description: <strong class="float-right" >{{ $asset->description }}</strong></p>
 						
 						<div class="card-footer bg-transparent row ">
 							<div class="col-6">

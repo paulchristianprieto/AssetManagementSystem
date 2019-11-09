@@ -35,8 +35,12 @@ class AssetController extends Controller
                 foreach ($user_request->assets as $user_request_asset) {
                     // dd($user_request_asset->pivot->asset_id);
                     // dd( $user_request_asset->pivot->quantity);
-                    if($user_request_asset->pivot->asset_status == "Lent"){
+                    // dd($asset);
+
+                    if($user_request_asset->pivot->asset_status == "Lent" && $user_request_asset->pivot->asset_id == $asset->id){
                         $temp += $user_request_asset->pivot->quantity;
+
+                        // echo $user_request_asset->pivot->quantity;
                     }
                 }
             }
@@ -45,9 +49,15 @@ class AssetController extends Controller
         // dd($lent_items);
         // $lent_items = User_request::find($ass)
 
+        $categories = Category::all();
+        $vendors = Vendor::all();
+    
         return view('assets.index')
             ->with('assets', $assets)
-            ->with('lent_items', $lent_items);
+            ->with('lent_items', $lent_items)
+            ->with('categories', $categories)
+            ->with('vendors', $vendors);
+
     }
 
     /**
