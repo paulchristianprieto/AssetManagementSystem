@@ -15,33 +15,43 @@
 			</div>
 		@endif
 
-		<div class="row">
-			<div class="col-12 col-md-8 mx-auto text-center">
- 
-				<h2>Assets</h2>
-
-				
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-2">
+		
+		<div class="row side-panel">
+			<div class="col-2 bg-dark p-4 ">
+				<div class="row m-4 " style="color:white;">
+					<div class="col-12 text-center p-3" style="font-size: 24px;">
+						<i class="far fa-user fa-5x"></i>
+					</div>
+					<div class="col-12 text-center">
+						<h5 class="mt-2">{{Auth::user()->name}} </h5>
+						<p>{{Auth::user()->email}} </p>
+						<p>{{Auth::user()->role->name}} </p>
+					</div>
+				</div>
 				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 					<a class="nav-link" href="{{ route('assets.create') }}">Add Asset</a>
-
-					<p class="nav-link">Filter By Categories: </p>
-					{{-- {{dd($categories)}} --}}
-					@foreach($categories as $category)
-						<a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">{{$category->name}}</a>
-					@endforeach
-
-					<p class="nav-link">Filter By Vendors: </p>
-					@foreach($vendors as $vendor)
-						<a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">{{$vendor->name}}</a>
-					@endforeach
+					<a class="nav-link" href="{{ route('vendors.create') }}">Add Vendor</a>
+					<a class="nav-link" href="{{ route('categories.create') }}">Add Category</a>
 				</div>
+				<p class="nav-link mb-0 mt-2">Filter By Categories: </p>
+				@foreach($categories as $category)
+					<a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">{{$category->name}}</a>
+				@endforeach
+
+				<p class="nav-link mb-0 mt-2">Filter By Vendors: </p>
+				@foreach($vendors as $vendor)
+					<a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">{{$vendor->name}}</a>
+				@endforeach
 			</div>
 
-			<div class="col-12 col-md-8 ">
+
+			<div class="col-12 col-md-8 mx-auto py-3">
+				<div class="row">
+					<div class="col-12 col-md-8 mx-auto text-center">
+						<h2>Assets</h2>
+					</div>
+				</div>
+
 				<div class="row">
 					@foreach ($assets as $asset)
 						<div class="card col-4 m-2 mx-auto shadow p-3 mb-5 bg-white rounded">

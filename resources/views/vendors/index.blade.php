@@ -15,9 +15,9 @@
 	@endif
 
 	
-	<div class="row" >
-		<div class="col-2 bg-dark p-4 side-panel">
-			<div class="row m-4">
+	<div class="row side-panel" >
+		<div class="col-2 bg-dark p-4">
+			<div class="row m-4 " style="color:white;">
 				<div class="col-12 text-center p-3" style="font-size: 24px;">
 					<i class="far fa-user fa-5x"></i>
 				</div>
@@ -28,22 +28,16 @@
 				</div>
 			</div>
 			<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+				<a class="nav-link" href="{{ route('assets.create') }}">Add Asset</a>
 				<a class="nav-link" href="{{ route('vendors.create') }}">Add Vendor</a>
-
-				<p class="nav-link">Filter By Vendors: </p>
-				@foreach($vendors as $vendor)
-					<a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">{{$vendor->name}}</a>
-				@endforeach
+				<a class="nav-link" href="{{ route('categories.create') }}">Add Category</a>
 			</div>
 		</div>
 
 		<div class="col-12 col-md-8 mx-auto py-3">
 			<div class="row">
 				<div class="col-12 col-md-8 mx-auto text-center">
-
-					<h2>Assets</h2>
-
-					
+					<h2>Vendors</h2>
 				</div>
 			</div>
 
