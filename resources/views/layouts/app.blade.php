@@ -57,7 +57,7 @@
 
                         @can('isUser')
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('categories.index') }} ">Categories</a>
+                            <a class="nav-link" href="{{route('category_filtered_assets', ['category' => '1']) }} ">Categories</a>
                         </li>
 
                         <li class="nav-item">

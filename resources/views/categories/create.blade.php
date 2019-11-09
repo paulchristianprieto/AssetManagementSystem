@@ -7,7 +7,7 @@
 		<div class="row">
 			<div class="col-12 col-md-8 mx-auto">
 				<h3 class="text-center">
-					Add Vendor
+					Add Category
 				</h3>
 				<hr>
 				<form action="{{ route('categories.store') }} " method="POST" enctype="multipart/form-data" >

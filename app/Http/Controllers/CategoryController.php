@@ -14,10 +14,13 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+
+    public function filter_assets($category_id){
+        // $transactions = Transaction::where('user_id', $user_id)->get();
+        // dd($category);
+        $assets = Asset::where('category_id', $category_id)->get();
+        // dd($assets);
         $categories = Category::all();
-        $assets = Asset::all();
         $user_requests = User_request::all();
 
         $category_available_items = [];
@@ -56,8 +59,55 @@ class CategoryController extends Controller
         return view('categories.index')->with('categories', $categories)
             ->with('assets', $assets)
             ->with('category_available_items', $category_available_items)
-            ->with('category_lent_items', $category_lent_items);
+            ->with('category_lent_items', $category_lent_items)
+            ->with('category_id', $category_id);
     }
+
+    //not used
+    // public function index()
+    // {
+    //     $categories = Category::all();
+    //     $assets = Asset::all();
+    //     $user_requests = User_request::all();
+
+    //     $category_available_items = [];
+    //     $total_available =0;
+    //     $category_lent_items = [];
+    //     $total_lent =0;
+
+    //     foreach ($categories as $category) {
+    //         foreach ($assets as $asset) {
+    //             if ($asset->category_id == $category->id) {
+    //                 $total_available += $asset->quantity_available;
+    //             }
+    //         }
+    //         $category_available_items[$category->id] = $total_available;
+    //         $total_available = 0;
+
+    //         // accessing pivot table
+    //         foreach ($user_requests as $user_request) {
+    //             // dd($user_request->assets);
+    //             foreach ($user_request->assets as $user_request_asset) {
+    //                 // dd($user_request_asset->category_id);
+    //                 if($user_request_asset->pivot->asset_status == "Lent" && $user_request_asset->category_id == $category->id){
+    //                     $total_lent += $user_request_asset->pivot->quantity;
+    //                 }
+    //             }
+    //         }
+    //         $category_lent_items[$category->id] = $total_lent;
+
+    //         $total_lent = 0;
+    //     }
+    //     // dd($category_available_items, $category_lent_items);
+
+    //     return
+        
+
+    //     return view('categories.index')->with('categories', $categories)
+    //         ->with('assets', $assets)
+    //         ->with('category_available_items', $category_available_items)
+    //         ->with('category_lent_items', $category_lent_items);
+    // }
 
     /**
      * Show the form for creating a new resource.
