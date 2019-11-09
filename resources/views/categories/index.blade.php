@@ -36,7 +36,7 @@
 					@endforeach
 				</ul>
 			</nav>
-
+		
 			@if (Session::has('destroy_success'))
 				<div class="row">
 					<div class="col-12">
@@ -46,16 +46,17 @@
 					</div>
 				</div>
 			@endif
+		
 
 			@cannot('isAdmin')
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12 mx-auto">
-						<form action="{{ route('user_requests.store') }}" method="POST">
+						<form action="{{ route('user_requests.store') }}" method="POST" class="text-center">
 							@csrf
 
 							<input type="hidden" name="category_id" value="{{$category->id}}">
-							<div class="container-fluid my-3 col-8">
+							<div class="container-fluid my-3 col-12">
 								<h3 class="font-weight-bold text-uppercase">Request a {{$categories[$category_id-1]->name }}</h3>
 								<div class="mb-4">
 									<span class="ml-2 badge-pill 
@@ -73,63 +74,82 @@
 									@endcan
 								</div>
 
-								<div class="row">
-									<div class='col-md-6'>
-								        <div class="form-group">
-								        	<label for="borrow_date" class="form-check-label">Borrow Date: </label>
-								           	<div class="input-group date" id="datetimepicker7" data-target-input="nearest">
-								                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker7" id="borrow_date" name="borrow_date" />
-								                <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
-								                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-								                </div>
-								            </div>
-								        </div>
-								    </div>
-								    <div class='col-md-6'>
-								        <div class="form-group">
-								        	<label for="return_date" class="form-check-label">Borrow Date: </label>
-								           	<div class="input-group date" id="datetimepicker8" data-target-input="nearest">
-								                <input type="text" id="return_date" class="form-control datetimepicker-input" data-target="#datetimepicker8" name="return_date" />
-								                <div class="input-group-append" data-target="#datetimepicker8" data-toggle="datetimepicker">
-								                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-								                </div>
-								            </div>
-								        </div>
-								    </div>
+								
+						        <div class="form-group row">
+						        	<label for="borrow_date" class="form-check-label col-3 mx-auto col-form-label text-left">Borrow Date: </label>
+						           	<div class="input-group date col-6 mx-auto " id="datetimepicker7" data-target-input="nearest">
+						                <input placeholder="12/31/2018 00:00 AM" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker7" id="borrow_date" name="borrow_date" />
+						                <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
+						                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+						                </div>
+						            </div>
+						        </div>
+								{{-- <div class="row">
+									<div class="col-8">
+										<p >To</p>
+									</div>
+								</div> --}}
+						        
+								    
+								<div class="form-group row">
+						        	<label for="return_date" class="form-check-label mx-auto col-form-label col-3 text-left">Return Date: </label>
+						           	<div class="input-group mx-auto date col-6" id="datetimepicker8" data-target-input="nearest">
+						                <input placeholder="12/31/2018 00:00 AM" type="text" id="return_date" class="form-control datetimepicker-input" data-target="#datetimepicker8" name="return_date" />
+						                <div class="input-group-append" data-target="#datetimepicker8" data-toggle="datetimepicker">
+						                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+						                </div>
+						            </div>
+						        </div>
 
+						        <div class="form-group row">
+									<label for="quantity" class="col-3 mx-auto col-form-label text-left">Quantity: </label>
+									<input type="number" class="input-group form-control mx-auto col-6" name="quantity" min="1" placeholder="1" aria-describedby="quantityError">
+								
+									@if ($errors->has('quantity'))
+										<small id="quantityError" class="form-text text-muted alert-danger alert">
+											Quantity is not valid.
+										</small>							
+									@endif
+								</div>
+								<div class="form-group row">
+									<label for="description" class="col-3 mx-auto col-form-label text-left">Request Description (optional):</label>
+									<textarea 
+										name="description" 
+										id="description" 
+										class="form-control col-6 mx-auto " 
+										min="1" 
+										cols="30" 
+										rows="5"
+										aria-describedby="descriptionError"
+										placeholder="Request Description" 
+									></textarea>
+									@if ($errors->has('description'))
+										<small id="descriptionError" class="form-text text-muted alert-danger alert">
+											Request description is too long. 
+										</small>							
+									@endif
+								</div>
+
+								<div class="form-group row">
+									<div class="col-md-4">
+
+									</div>
+									<div class="col-md-8">
+										
+									</div>
+									
 								</div>
 								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label for="quantity">Quantity: </label>
-											<input type="number" class="input-group form-control" name="quantity">
-										</div>
-									</div>
+									<button class="btn btn-primary col-3 mx-auto" {{ ($category_available_items[$category_id] == 0) ? "disabled":"" }} >Submit Request</button>
+									<div class="col-6 mx-auto"></div>
 								</div>
-								
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label for="description">Request Description (optional):</label>
-											<textarea 
-												name="description" 
-												id="description" 
-												class="form-control" 
-												min="1" 
-												cols="30" 
-												rows="10"
-											></textarea>
-										</div>
-									</div>
-								</div>
-								
-								<button class="btn btn-primary">Submit Request</button>
 							</div>
 						</form>
 					</div>
 				</div>
 			</div>
 			@endcannot
+
 
 			@can('isAdmin')
 			<div class="row">
@@ -179,6 +199,7 @@
 			</div>
 			@endcan
 		</div>
+		
 		
 		{{-- @can('isAdmin')
 		<div class="col-12 col-md-2 my-3">

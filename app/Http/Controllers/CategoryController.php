@@ -176,7 +176,7 @@ class CategoryController extends Controller
 
         $request->session()->flash('category_message', 'Category successfully added!');
 
-        return redirect(route('request_category', ['category_id'=>1]));
+        return redirect(route('category_filtered_assets', ['category_id'=>1]));
     }
 
     /**
