@@ -7,8 +7,16 @@
 	<div class="row">
 		<div class="col-12 col-md-8 offset-2">
 
-
-			{{-- <h2 class="text-center">Categories </h2> --}}
+			{{-- Navigation --}}
+			<nav>
+				<ul class="nav nav-tabs">
+					@foreach($categories as $category)
+						<li class="nav-item">
+							<a class="nav-link {{ ($category->id == $category_id) ? 'active font-weight-bold':''}} " href="{{route('category_filtered_assets', ['category_id' => $category->id]) }}">{{$category->name}}</a>
+						</li>
+					@endforeach
+				</ul>
+			</nav>
 
 			@if (Session::has('destroy_success'))
 				<div class="row">
@@ -19,17 +27,6 @@
 					</div>
 				</div>
 			@endif
-			{{-- Navigation --}}
-
-			<nav>
-				<ul class="nav nav-tabs">
-					@foreach($categories as $category)
-						<li class="nav-item">
-							<a class="nav-link {{ ($category->id == $category_id) ? 'active font-weight-bold':''}} " href="{{route('category_filtered_assets', ['category_id' => $category->id]) }}">{{$category->name}}</a>
-						</li>
-					@endforeach
-				</ul>
-			</nav>
 
 			@cannot('isAdmin')
 			<div class="container-fluid">

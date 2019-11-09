@@ -23,20 +23,23 @@ class UserRequestController extends Controller
     {
         $this->authorize('viewAny', $user_request);
         $statuses = Status::all();
+        $categories = Category::all();
 
         if (Auth::user()->role_id === 2) {
             $user_id = Auth::user()->id;
             $userRequests = User_request::where('user_id', $user_id)->orderBy('created_at', 'DESC')->get();
             return view('user_requests.index')
                 ->with('userRequests', $userRequests)
-                ->with('statuses', $statuses);
+                ->with('statuses', $statuses)
+                ->with('categories', $categories);
         }
-        
+
         if (Auth::user()->role_id === 1) {
             $userRequests = User_request::orderBy('created_at', 'DESC')->get();
             return view('user_requests.index')
                 ->with('userRequests', $userRequests)
-                ->with('statuses', $statuses);
+                ->with('statuses', $statuses)
+                ->with('categories', $categories);
         }
 
         
