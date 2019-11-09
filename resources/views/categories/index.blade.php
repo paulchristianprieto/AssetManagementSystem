@@ -24,13 +24,12 @@
 				<ul class="nav nav-tabs">
 					@foreach($categories as $category)
 						<li class="nav-item">
-							<a class="nav-link {{ ($category->id == $category_id) ? 'active font-weight-bold':''}} " href="{{route('category_filtered_assets', ['category' => $category->id]) }}">{{$category->name}}</a>
+							<a class="nav-link {{ ($category->id == $category_id) ? 'active font-weight-bold':''}} " href="{{route('category_filtered_assets', ['category_id' => $category->id]) }}">{{$category->name}}</a>
 						</li>
 					@endforeach
 				</ul>
 			</nav>
-			{{-- {{dd($assets)}} --}}
-			{{-- Content --}}
+
 			@foreach($assets as $asset)
 
 			<div class="card col-4"> 

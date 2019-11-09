@@ -21,7 +21,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('category/{category}', 'CategoryController@filter_assets')->name('category_filtered_assets');
+Route::get('category/{category_id}', 'CategoryController@filter_assets')->name('category_filtered_assets');
 
 // for user_requests
 Route::get('/requests/category/{category_id}', 'UserRequestController@request_category')->name('request_category');
