@@ -8,7 +8,7 @@
 		<div class="col-12 col-md-8 offset-2">
 
 
-			<h2 class="text-center">Categories </h2>
+			{{-- <h2 class="text-center">Categories </h2> --}}
 
 			@if (Session::has('destroy_success'))
 				<div class="row">
@@ -21,6 +21,7 @@
 			@endif
 			{{-- Navigation --}}
 			<nav>
+				<h3 class="text-center font-weight-bold text-uppercase">Request a {{$categories[$category_id-1]->name }}</h3>
 				<ul class="nav nav-tabs">
 					@foreach($categories as $category)
 						<li class="nav-item">
@@ -30,24 +31,25 @@
 				</ul>
 			</nav>
 
-			@foreach($assets as $asset)
-
-			<div class="card col-4"> 
-				<div class="card-header">{{ $asset->sku_number }}</div>
-				<img class="card-img-top" src="{{ url('/public/' . $asset->image) }}" style="height: 150px;">
-				<div class="card-body">
-					<h5 class="card-title">{{ $asset->name }}</h5>
-					<p class="card-text">{{ $asset->category->name }}
-						<span class="card-text badge float-right {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
-							{{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}} 
-						</span>
-					</p>
+			<div class="row">
+				@foreach($assets as $asset)
+				<div class="card col-4 m-2"> 
+					<div class="card-header">{{ $asset->sku_number }}</div>
+					<img class="card-img-top" src="{{ url('/public/' . $asset->image) }}" style="height: 150px;">
+					<div class="card-body">
+						<h5 class="card-title">{{ $asset->name }}</h5>
+						<p class="card-text">{{ $asset->category->name }}
+							<span class="card-text badge float-right {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
+								{{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}} 
+							</span>
+						</p>
+					</div>
+					<div class="card-footer">
+						<a href="{{ route('assets.show', ['asset' => $asset->id]) }}" class="btn btn-primary btn-outline-primary float-right"><small class="text-muted">View Item</small></a>
+					</div>
 				</div>
-				<div class="card-footer">
-					<a href="{{ route('assets.show', ['asset' => $asset->id]) }}" class="btn btn-primary btn-outline-primary float-right"><small class="text-muted">View Item</small></a>
-				</div>
+				@endforeach
 			</div>
-			@endforeach
 		</div>
 
 		@can('isAdmin')
