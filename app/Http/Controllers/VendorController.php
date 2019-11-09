@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Vendor;
 use App\Asset;
+use App\User_request;
 
 use Illuminate\Http\Request;
 use Str;
@@ -18,9 +19,35 @@ class VendorController extends Controller
     public function index(Vendor $vendor)
     {
         $this->authorize('viewAny', $vendor);
+        $user_requests = User_request::all();
         $vendors = Vendor::all();
         $assets = Asset::all();
-        return view('vendors.index')->with('vendors', $vendors)->with('assets', $assets);
+        $lent_items = [];
+        // accessing pivot table
+        foreach ($assets as $asset) {
+            $temp =0;
+            // echo $asset->id;
+            $lent_items[$asset->id] =0;
+            foreach ($user_requests as $user_request) {
+                // dd($user_request->assets);
+                foreach ($user_request->assets as $user_request_asset) {
+                    // dd($user_request_asset->pivot->asset_id);
+                    // dd( $user_request_asset->pivot->quantity);
+                    // dd($asset);
+
+                    if($user_request_asset->pivot->asset_status == "Lent" && $user_request_asset->pivot->asset_id == $asset->id){
+                        $temp += $user_request_asset->pivot->quantity;
+
+                        // echo $user_request_asset->pivot->quantity;
+                    }
+                }
+            }
+            $lent_items[$asset->id] = $temp;
+        }
+        return view('vendors.index')
+            ->with('vendors', $vendors)
+            ->with('lent_items', $lent_items)
+            ->with('assets', $assets);
     }
 
     /**

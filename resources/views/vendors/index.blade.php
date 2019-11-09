@@ -2,25 +2,53 @@
 
 @section('content')
 
+<div class="container-fluid ">
 
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-12 col-md-9 mx-auto">
-
-			
-			<h2 class="text-center">Vendors <span><a href=" {{ route('vendors.create') }} " class="btn btn-light rounded-circle bg-success"><strong>+</strong></a></span></h2>
-
-			@if (Session::has('destroy_success'))
-				<div class="row">
-					<div class="col-12">
-						<div class="alert alert-success">
-							{{ Session::get('destroy_success') }}
-						</div>
-					</div>
+	@if (Session::has('destroy_success'))
+		<div class="row">
+			<div class="col-12">
+				<div class="alert alert-success">
+					{{ Session::get('destroy_success') }}
 				</div>
-			@endif
+			</div>
+		</div>
+	@endif
 
-			<div class="accordion" id="vendorsAccordion">
+	
+	<div class="row" >
+		<div class="col-2 bg-dark p-4 side-panel">
+			<div class="row m-4">
+				<div class="col-12 text-center p-3" style="font-size: 24px;">
+					<i class="far fa-user fa-5x"></i>
+				</div>
+				<div class="col-12 text-center">
+					<h5 class="mt-2">{{Auth::user()->name}} </h5>
+					<p>{{Auth::user()->email}} </p>
+					<p>{{Auth::user()->role->name}} </p>
+				</div>
+			</div>
+			<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+				<a class="nav-link" href="{{ route('vendors.create') }}">Add Vendor</a>
+
+				<p class="nav-link">Filter By Vendors: </p>
+				@foreach($vendors as $vendor)
+					<a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">{{$vendor->name}}</a>
+				@endforeach
+			</div>
+		</div>
+
+		<div class="col-12 col-md-8 mx-auto py-3">
+			<div class="row">
+				<div class="col-12 col-md-8 mx-auto text-center">
+
+					<h2>Assets</h2>
+
+					
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="accordion col-12" id="vendorsAccordion">
 
 				@foreach ($vendors as $vendor)
 				{{-- {{ dd($vendor) }} --}}
@@ -28,7 +56,7 @@
 				<div class="card shadow bg-white rounded">
 					<div class="card-header" id="headingOne">
 						<div class="row">
-							<div class="col-9">
+							<div class="col-10">
 								<button 
 									class="btn btn-block text-left" 
 									type="button" 
@@ -41,59 +69,70 @@
 								</button>
 							</div>
 							
-							
 							{{-- actions --}}
-							<div class="float-right col-3 text-center">
+							<div class="float-right col-2 text-center">
 								<span>
 									<a href="{{ route('vendors.show', ['vendor' => $vendor->id])}}" class="btn btn-dark bg-info btn-raised">View</a>
 								</span>
-
 								<span>
 									<a href="{{ route('vendors.edit', ['vendor' => $vendor->id])}}" class="btn btn-dark bg-warning btn-raised">Edit</a>
 								</span>
-
-								{{-- <span class="float-right">
-									<form action="{{ route('vendors.destroy', ['vendor' => $vendor->id ])}} " method="POST">
-										@csrf
-										@method('DELETE')
-										<button class="btn btn-danger border-0">Remove</button>
-									</form>
-								</span> --}}
 							</div>
 						</div>
 
 					</div>
 
 					<div id="vendor-{{$vendor->id }}" class="collapse" aria-labelledby="headingOne" data-parent="#vendorsAccordion">
-						<div class="card-body">
+						<div class="card-body ">
 							{{-- {{ dd($assets) }} --}}
-							<h6 class="card-title text-center">{{$vendor->name }}'s Products </h6>
+							<h4 class="card-title text-center">{{$vendor->name }}'s Products </h4>
 							
 							<div class="container-fluid">
 								<div class="row">
-									<div class="card-group">
 									@foreach($assets as $asset)
 
 										@if($asset->vendor->id == $vendor->id)
-											<div class="card col-4"> 
-												<div class="card-header">{{ $asset->sku_number }}</div>
-												<img class="card-img-top" src="{{ url('/public/' . $asset->image) }}" style="height: 150px;">
-												<div class="card-body">
-													<h5 class="card-title">{{ $asset->name }}</h5>
-													<p class="card-text">{{ $asset->category->name }}
-														<span class="card-text badge float-right {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
+											<div class="card mx-auto col-4 mx-auto m-2 shadow p-3 mb-5 bg-white rounded">
+												<div class="wrapper">
+													<img class="card-img-top img-fluid" src="{{ url('/public/' . $asset->image) }}" alt="{{ $asset->name}}">
+												</div>
+												<h4 class="card-title text-center">{{ $asset->name }}</h4>
+												<div class="row">
+													<div class="col-12 mx-auto text-center">
+														<span class="card-text badge  {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
 															{{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}} 
 														</span>
-													</p>
+														<span class="card-text badge  badge-warning">
+															Lent: {{ $lent_items[$asset->id] }}
+															{{-- {{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}}  --}}
+														</span>
+													</div>
 												</div>
-												<div class="card-footer">
-													<a href="{{ route('assets.show', ['asset' => $asset->id]) }}" class="btn btn-primary btn-outline-primary float-right"><small class="text-muted">View Item</small></a>
+												<div class="card-body">
+													<p class="card-text">Category: <strong class="float-right">{{ $asset->category->name }} </strong>
+														
+													</p>
+													<p class="card-text">Vendor: <strong class="float-right">{{ $asset->vendor->name }} </strong>
+														
+													</p>
+													<p class="card-text">SKU: <strong class="float-right" >{{ $asset->sku_number }}</strong></p>
+													<p class="card-text">Condition: <strong class="float-right" >{{ $asset->asset_status->name }}</strong></p>
+													<p class="card-text">Description: <strong class="float-right" >{{ $asset->description }}</strong></p>
+													
+													<div class="card-footer bg-transparent row ">
+														<div class="col-6">
+															<a href="{{ route('assets.show', ['asset' => $asset->id]) }}" class="btn btn-primary btn-block ">View Item</a>
+														</div>
+														<div class="col-6">
+															<a href="{{ route('assets.edit', ['asset' => $asset->id]) }}" class="btn btn-warning btn-block ">Edit Item</a>
+														</div>
+														
+													</div>
 												</div>
 											</div>
 										@endif
 
 									@endforeach
-									</div>
 								</div>
 							</div>
 						</div>
@@ -102,13 +141,12 @@
 
 				@endforeach
 
+				</div>
 			</div>
 		</div>
-
-		
-
 	</div>
 </div>
+			
 
 
 @endsection

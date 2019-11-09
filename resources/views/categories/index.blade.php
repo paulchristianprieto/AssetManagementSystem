@@ -115,7 +115,7 @@
 			@can('isAdmin')
 			<div class="row">
 				@foreach($assets as $asset)
-				<div class="card col-4 m-2 shadow p-3 mb-5 bg-white rounded">
+				<div class="card col-4 m-2 mx-auto shadow p-3 mb-5 bg-white rounded">
 					<div class="wrapper">
 						<img class="card-img-top img-fluid" src="{{ url('/public/' . $asset->image) }}" alt="{{ $asset->name}}">
 					</div>
@@ -132,10 +132,10 @@
 						</div>
 					</div>
 					<div class="card-body">
-						<p class="card-text">Category: <strong>{{ $asset->category->name }} </strong>
+						<p class="card-text">Category: <strong class="float-right">{{ $asset->category->name }} </strong>
 							
 						</p>
-						<p class="card-text">Vendor: <strong>{{ $asset->vendor->name }} </strong>
+						<p class="card-text">Vendor: <strong class="float-right">{{ $asset->vendor->name }} </strong>
 							
 						</p>
 						<p class="card-text">SKU: <strong class="float-right" >{{ $asset->sku_number }}</strong></p>

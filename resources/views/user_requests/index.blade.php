@@ -404,7 +404,7 @@
 														<div class="row">
 															<div class="col-12">
 																<div class="my-3">
-																	<h3 class="text-center">Available {{$request->category->name}} </h3>
+																	<h3 class="text-center">Assigned Asset </h3>
 																</div>
 															</div>
 														</div>
