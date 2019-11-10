@@ -22,6 +22,10 @@
 					<a class="nav-link" href="{{ route('vendors.create') }}">Add Vendor</a>
 					<a class="nav-link" href="{{ route('categories.create') }}">Add Category</a>
 				</div>
+				<p class="nav-link mb-0 mt-2">View Category: </p>
+				@foreach($categories as $category)
+					<a class="nav-link" href="{{ route('categories.show', ['category'=> $category->id]) }}">{{$category->name}}</a>
+				@endforeach
 			</div>
 			
 		</div>

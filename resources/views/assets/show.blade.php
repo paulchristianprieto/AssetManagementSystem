@@ -122,6 +122,7 @@
 						</form>
 						<form class="col-4" action="{{ route('assets.destroy', ['asset' => $asset->id ])}}" method="POST">
 							@csrf
+							@method('DELETE')
 							<button class="btn btn-danger btn-block mt-3">Delete</button>
 						</form>
 					</div>
