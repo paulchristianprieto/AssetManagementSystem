@@ -35,7 +35,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-dark shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm ">
             <div class="container-fluid">
                 <a class="navbar-brand" style="color: white; " href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -50,7 +50,7 @@
 
                         @can('isAdmin')
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('vendors.index') }} ">Vendors</a>
+                            <a class="nav-link " href="{{ route('vendors.index') }} ">Vendors</a>
                         </li>
 
                         <li class="nav-item">

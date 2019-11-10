@@ -149,7 +149,33 @@ class AssetController extends Controller
      */
     public function show(Asset $asset)
     {
-        return view('assets.show')->with('asset', $asset);
+        $user_requests = User_request::all();
+        $lent_items = [];
+        // accessing pivot table
+       
+        $temp =0;
+        // echo $asset->id;
+        $lent_items[$asset->id] =0;
+        foreach ($user_requests as $user_request) {
+            // dd($user_request->assets);
+            foreach ($user_request->assets as $user_request_asset) {
+                // dd($user_request_asset->pivot->asset_id);
+                // dd( $user_request_asset->pivot->quantity);
+                // dd($asset);
+
+                if($user_request_asset->pivot->asset_status == "Lent" && $user_request_asset->pivot->asset_id == $asset->id){
+                    $temp += $user_request_asset->pivot->quantity;
+
+                    // echo $user_request_asset->pivot->quantity;
+                }
+            }
+        }
+        $lent_items[$asset->id] = $temp;
+        
+
+        return view('assets.show')
+            ->with('asset', $asset)
+            ->with('lent_items', $lent_items);
     }
 
     /**

@@ -17,7 +17,7 @@
 						<p>{{Auth::user()->role->name}} </p>
 					</div>
 				</div>
-				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+				<div class="nav flex-column nav-pills " id="v-pills-tab" role="tablist" aria-orientation="vertical">
 					<a class="nav-link" href="{{ route('assets.create') }}">Add Asset</a>
 					<a class="nav-link" href="{{ route('vendors.create') }}">Add Vendor</a>
 					<a class="nav-link" href="{{ route('categories.create') }}">Add Category</a>
@@ -30,7 +30,7 @@
 
 			{{-- Navigation --}}
 			<nav>
-				<ul class="nav nav-tabs">
+				<ul class="nav nav-tabs nav-fill">
 					@foreach($categories as $category)
 						<li class="nav-item">
 							<a class="nav-link {{ ($category->id == $category_id) ? 'active font-weight-bold':''}} " href="{{route('category_filtered_assets', ['category_id' => $category->id]) }}">{{$category->name}}</a>
