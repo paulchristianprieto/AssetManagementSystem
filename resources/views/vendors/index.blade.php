@@ -43,6 +43,7 @@
 					<h2>Vendors</h2>
 				</div>
 			</div>
+			<hr>
 
 			<div class="row">
 				<div class="accordion col-12" id="vendorsAccordion">

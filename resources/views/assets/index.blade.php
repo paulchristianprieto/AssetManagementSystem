@@ -53,6 +53,7 @@
 						<h2>Assets</h2>
 					</div>
 				</div>
+				<hr>
 
 				<div class="row">
 					@foreach ($assets as $asset)

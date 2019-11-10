@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'UserRequestController@index')->name('home');
 
 Route::get('category/{category_id}', 'CategoryController@filter_assets')->name('category_filtered_assets');
 
