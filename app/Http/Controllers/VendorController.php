@@ -161,6 +161,15 @@ class VendorController extends Controller
     {
         $this->authorize('update', $vendor);
         // validate
+        $request->validate([
+            "sku_id" => 'required|string|max:4',
+            "name" => 'required|string',
+            "address" => 'required|string',
+            'image' => 'image|max:30000',
+            "company_email" => 'email:rfc',
+            "description" => 'nullable|string|max:191'
+        ]);
+        
 
         $name = $request->input('name');
         $vendor_sku = $request->input('sku_id');

@@ -216,6 +216,13 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $this->authorize('update', $category);
+        $request->validate([
+            'name' => 'required|string',
+            'category_sku' => 'required|string|max:4|unique:categories,category_sku',
+            // 'image' => 'required|image|max:30000',
+            'description' => 'nullable|string|max:191'
+        ]);
+        
         $name = $request->input('name');
         $category_sku = $request->input('category_sku');
         $description = $request->input('description');

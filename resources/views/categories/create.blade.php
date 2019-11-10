@@ -43,7 +43,7 @@
 							@endif
 						</div>
 						<div class="form-group col-md-4">
-							<label for="category_sku">Asset Quantity:</label>
+							<label for="category_sku">Category Code:</label>
 							<input type="text" class="form-control" name="category_sku" id="category_sku" placeholder="CPU" aria-describedby="categoryError">
 							@if ($errors->has('category_sku'))
 								<small id="categoryError" class="form-text text-muted alert-danger alert">
@@ -55,7 +55,7 @@
 
 					<div class="form-group row">
 						<div class="form-group col-md-12">
-							<label for="description" class="bmd-label-floating">Company Description (optional):</label>
+							<label for="description" class="bmd-label-floating">Category Description (optional):</label>
 							<textarea 
 								name="description" 
 								id="description" 

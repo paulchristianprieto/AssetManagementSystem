@@ -207,8 +207,20 @@ class AssetController extends Controller
     public function update(Request $request, Asset $asset)
     {
         $this->authorize('update', $asset);
+
+        // dd($request->all());
+
+        $request->validate([
+            "name" => "required|string",
+            "quantity" => "required|digits_between:1,9999",
+            "description" => "required|string|max:191",
+            "vendor" => "required",
+            "category" => "required",
+            "asset_status_id" => "required"
+        ]);
         
-        $available = $request->input('available');
+
+
         $name = $request->input('name');
         $quantity_available = $request->input('quantity');
         $description = $request->input('description');
@@ -222,7 +234,7 @@ class AssetController extends Controller
             $asset->quantity_available == $quantity_available &&
             $asset->description == $description &&
             $asset->asset_status_id == $asset_status_id &&
-            $asset->available == $available &&
+            
             $asset->category_id == $category_id &&
             $asset->vendor_id == $vendor_id
         )
@@ -245,7 +257,6 @@ class AssetController extends Controller
             $asset->quantity_available = $quantity_available;
             $asset->description = $description;
             $asset->asset_status_id = $asset_status_id;
-            $asset->available = $available;
             $asset->category_id = $category_id;
             $asset->vendor_id = $vendor_id;
             $asset->save();

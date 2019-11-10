@@ -26,7 +26,7 @@
 
 		<div class="col-12 col-md-8 mx-auto py-3">
 			<h3 class="text-center">
-				Edit Vendor Info
+				Edit Category Information
 			</h3>
 			<hr>
 			@if(Session::has('update_failed'))
@@ -40,7 +40,56 @@
 					{{ Session::get('update_success') }}
 				</div>
 			@endif
+			<div>
+				<form action="{{ route('categories.update', ['category' => $category->id]) }}" method="POST" enctype="multipart/form-data" >
+					@csrf
+					@method('PUT')
 
+					<div class="form-group row">
+						<div class="form-group col-md-8">
+							<label for="name">Category Name:</label>
+							<input type="text" class="form-control" name="name" id="name" placeholder="Category Name" aria-describedby="nameError" value="{{ $category->name }}">
+							@if ($errors->has('name'))
+								<small id="nameError" class="form-text text-muted alert-danger alert">
+									Category name is required.
+								</small>							
+							@endif
+						</div>
+						<div class="form-group col-md-4">
+							<label for="category_sku">Category Code:</label>
+							<input type="text" class="form-control" name="category_sku" id="category_sku" placeholder="CPU" aria-describedby="categoryError" value="{{ $category->category_sku }}">
+							@if ($errors->has('category_sku'))
+								<small id="categoryError" class="form-text text-muted alert-danger alert">
+									Asset category code is required. | Maximum 4 characters. | Must be unique.
+								</small>							
+							@endif
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<div class="form-group col-md-12">
+							<label for="description" class="bmd-label-floating">Category Description (optional):</label>
+							<textarea 
+								name="description" 
+								id="description" 
+								class="form-control" 
+								min="1" 
+								cols="30" 
+								rows="5"
+								aria-describedby="descriptionError"
+								placeholder="Category Description" 
+							>{{ $category->description }}</textarea>
+							@if ($errors->has('description'))
+								<small id="descriptionError" class="form-text text-muted alert-danger alert">
+									Category description is too long. 
+								</small>							
+							@endif
+						</div>
+					</div>
+
+					<button class="btn btn-dark btn-block col-4 mx-auto">Save & Update</button>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
