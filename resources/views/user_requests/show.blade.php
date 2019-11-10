@@ -19,9 +19,9 @@
 					</div>
 				</div>
 				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-					<a class="nav-link" href="{{ route('assets.create') }}">Add Asset</a>
-					<a class="nav-link" href="{{ route('vendors.create') }}">Add Vendor</a>
-					<a class="nav-link" href="{{ route('categories.create') }}">Add Category</a>
+					<a class="nav-link" href="{{ route('assets.create') }}"><i class="fas fa-plus-circle"></i> Add Asset</a>
+					<a class="nav-link" href="{{ route('vendors.create') }}"><i class="fas fa-plus-circle"></i> Add Vendor</a>
+					<a class="nav-link" href="{{ route('categories.create') }}"><i class="fas fa-plus-circle"></i> Add Category</a>
 				</div>
 			</div>
 		</div>
@@ -61,18 +61,10 @@
 				</div>
 				<div class="row mt-2">
 					<div class="col-6">
-						Borrow Date: 
-					</div>
-					<div class="col-6">
-						<strong class="float-right">{{ \Carbon\Carbon::parse($user_request->borrow_date)->format('M d, Y @ H:i') }}</strong>
-					</div>
-				</div>
-				<div class="row mt-2">
-					<div class="col-6">
 						Return Date: 
 					</div>
 					<div class="col-6">
-						<strong class="float-right">{{ \Carbon\Carbon::parse($user_request->return)->format('M d, Y @ H:i') }}</strong>
+						<strong class="float-right">{{ \Carbon\Carbon::parse($user_request->return_date)->format('M d, Y @ H:i') }}</strong>
 					</div>
 				</div>
 				<div class="row mt-2">

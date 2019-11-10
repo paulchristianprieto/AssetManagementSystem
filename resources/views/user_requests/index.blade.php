@@ -19,9 +19,9 @@
 					</div>
 				</div>
 				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-					<a class="nav-link" href="{{ route('assets.create') }}">Add Asset</a>
-					<a class="nav-link" href="{{ route('vendors.create') }}">Add Vendor</a>
-					<a class="nav-link" href="{{ route('categories.create') }}">Add Category</a>
+					<a class="nav-link" href="{{ route('assets.create') }}"><i class="fas fa-plus-circle"></i> Add Asset</a>
+					<a class="nav-link" href="{{ route('vendors.create') }}"><i class="fas fa-plus-circle"></i> Add Vendor</a>
+					<a class="nav-link" href="{{ route('categories.create') }}"><i class="fas fa-plus-circle"></i> Add Category</a>
 				</div>
 				<p class="nav-link mb-0 mt-2">Filter By Categories: </p>
 				@foreach($categories as $category)
@@ -118,8 +118,8 @@
 																	@if($request->description)
 																		<td>{{$request->description}}</td>
 																	@endif
-																	<td>{{$request->borrow_date}}</td>
-																	<td>{{$request->return_date}}</td>
+																	<td>{{ \Carbon\Carbon::parse($request->borrow_date)->format('M d, Y @ H:i') }}</td>
+																	<td>{{ \Carbon\Carbon::parse($request->return_date)->format('M d, Y @ H:i') }}</td>
 																	<td>{{$request->category->name}}</td>
 																	<td>{{$request->quantity}}</td>
 																	<td> <p class="badge badge-warning ">{{$request->status->name}}</p></td>
@@ -270,8 +270,8 @@
 																	@if($request->description)
 																		<td>{{$request->description}}</td>
 																	@endif
-																	<td>{{$request->borrow_date}}</td>
-																	<td>{{$request->return_date}}</td>
+																	<td>{{ \Carbon\Carbon::parse($request->borrow_date)->format('M d, Y @ H:i') }}</td>
+																	<td>{{ \Carbon\Carbon::parse($request->return_date)->format('M d, Y @ H:i') }}</td>
 																	<td>{{$request->category->name}}</td>
 																	<td>{{$request->quantity}}</td>
 																	<td> <p class="badge badge-warning ">{{$request->status->name}}</p></td>
@@ -319,10 +319,10 @@
 																	</div>
 																</div>
 																<div class="card-body">
-																	<p class="card-text">Category: <strong>{{ $asset->category->name }} </strong>
+																	<p class="card-text">Category: <strong class="float-right">{{ $asset->category->name }} </strong>
 																		
 																	</p>
-																	<p class="card-text">Vendor: <strong>{{ $asset->vendor->name }} </strong>
+																	<p class="card-text">Vendor: <strong class="float-right">{{ $asset->vendor->name }} </strong>
 																		
 																	</p>
 																	<p class="card-text">SKU: <strong class="float-right" >{{ $asset->sku_number }}</strong></p>
@@ -430,8 +430,8 @@
 																	@if($request->description)
 																		<td>{{$request->description}}</td>
 																	@endif
-																	<td>{{$request->borrow_date}}</td>
-																	<td>{{$request->return_date}}</td>
+																	<td>{{ \Carbon\Carbon::parse($request->borrow_date)->format('M d, Y @ H:i') }}</td>
+																	<td>{{ \Carbon\Carbon::parse($request->return_date)->format('M d, Y @ H:i') }}</td>
 																	<td>{{$request->category->name}}</td>
 																	<td>{{$request->quantity}}</td>
 																	<td> <p class="badge badge-warning ">{{$request->status->name}}</p></td>
@@ -479,10 +479,10 @@
 																	</div>
 																</div>
 																<div class="card-body">
-																	<p class="card-text">Category: <strong>{{ $asset->category->name }} </strong>
+																	<p class="card-text">Category: <strong class="float-right">{{ $asset->category->name }} </strong>
 																		
 																	</p>
-																	<p class="card-text">Vendor: <strong>{{ $asset->vendor->name }} </strong>
+																	<p class="card-text">Vendor: <strong class="float-right">{{ $asset->vendor->name }} </strong>
 																		
 																	</p>
 																	<p class="card-text">SKU: <strong class="float-right" >{{ $asset->sku_number }}</strong></p>

@@ -18,9 +18,9 @@
 					</div>
 				</div>
 				<div class="nav flex-column nav-pills " id="v-pills-tab" role="tablist" aria-orientation="vertical">
-					<a class="nav-link" href="{{ route('assets.create') }}">Add Asset</a>
-					<a class="nav-link" href="{{ route('vendors.create') }}">Add Vendor</a>
-					<a class="nav-link" href="{{ route('categories.create') }}">Add Category</a>
+					<a class="nav-link" href="{{ route('assets.create') }}"><i class="fas fa-plus-circle"></i> Add Asset</a>
+					<a class="nav-link" href="{{ route('vendors.create') }}"><i class="fas fa-plus-circle"></i> Add Vendor</a>
+					<a class="nav-link" href="{{ route('categories.create') }}"><i class="fas fa-plus-circle"></i> Add Category</a>
 				</div>
 				<p class="nav-link mb-0 mt-2">View Category: </p>
 				@foreach($categories as $category)
