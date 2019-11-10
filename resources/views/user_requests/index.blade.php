@@ -37,6 +37,16 @@
 				</div>
 			</nav>
 
+			@if (Session::has('request_destroy_success'))
+	            <div class="row">
+	                <div class="col-12">
+	                    <div class="alert alert-success">
+	                        {{ Session::get('request_destroy_success') }}
+	                    </div>
+	                </div>
+	            </div>
+	        @endif
+
 			<div class="tab-content" id="nav-tabContent">
 				<div class="tab-pane fade show active" id="nav-pending" role="tabpanel" aria-labelledby="nav-pending-tab">
 					<div class="row my-4">
@@ -44,6 +54,7 @@
 							<h2 class="font-weight-bold">Pending Requests</h2>
 						</div>
 					</div>
+
 					<div class="row" >
 						<div class="col-12 mx-auto">
 							<div class="accordion " id="requestsAccordion">
@@ -85,7 +96,10 @@
 																<tr>
 																	<th scope="col"><strong>Request</strong></th>
 																	<th scope="col">User</th>
-																	<th scope="col">Description</th>
+																	@if($request->description)
+																		<th scope="col">Description</th>
+																	@endif
+																	
 																	<th scope="col">Borrow Date</th>
 																	<th scope="col">Return Date</th>
 																	<th scope="col">Category</th>
@@ -98,7 +112,9 @@
 																<tr>
 																	<th scope="row">{{$request->request_number}} </th>
 																	<td>{{$request->user->name}}</td>
-																	<td>{{$request->description}}</td>
+																	@if($request->description)
+																		<td>{{$request->description}}</td>
+																	@endif
 																	<td>{{$request->borrow_date}}</td>
 																	<td>{{$request->return_date}}</td>
 																	<td>{{$request->category->name}}</td>
@@ -106,6 +122,11 @@
 																	<td> <p class="badge badge-warning ">{{$request->status->name}}</p></td>
 																	<td>
 																		<a href=" {{ route('user_requests.show', ['user_request'=>$request->id]) }} " class="btn btn-primary btn-block">View</a>
+																		<form action="{{ route('user_requests.destroy', ['user_request' => $request->id ])}} " method="POST">
+																			@csrf
+																			@method('DELETE')
+																			<button class="btn btn-danger btn-block mt-2">Decline</button>
+																		</form>
 																	</td>
 																	{{-- <td> 
 																		<a href=" {{ route('user_requests.show', ['user_request'=>$request->id]) }} " class="btn btn-success btn-block btn-outline-dark">View</a>
@@ -126,41 +147,39 @@
 														<div class="row">
 															@foreach ($assets as $asset)
 															@if($asset->category_id == $request->category_id && $asset->quantity_available >= $request->quantity)
-															<div class="card mx-auto col-4 m-2 shadow p-3 mb-5 bg-white rounded">
-																<div class="wrapper">
-																	<img class="card-img-top img-fluid" src="{{ url('/public/' . $asset->image) }}" alt="{{ $asset->name}}">
-																</div>
-																<h4 class="card-title text-center">{{ $asset->name }}</h4>
-																<div class="row">
-																	<div class="col-12 mx-auto text-center">
-																		<span class="card-text badge  {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
-																			{{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}} 
-																		</span>
-																		<span class="card-text badge  badge-warning">
-																			Lent: {{ $lent_items[$asset->id] }}
-																			{{-- {{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}}  --}}
-																		</span>
+															<div class="col-4 p-2 mx-auto">
+																<div class="card {{-- col-4 m-2 mx-auto --}} shadow p-3 mb-5 bg-white rounded">
+																	<div class="wrapper">
+																		<img class="card-img-top img-fluid" src="{{ url('/public/' . $asset->image) }}" alt="{{ $asset->name}}">
 																	</div>
-																</div>
-																<div class="card-body">
-																	<p class="card-text">Category: <strong>{{ $asset->category->name }} </strong>
+																	<h4 class="card-title text-center">{{ $asset->name }}</h4>
+																	<div class="row">
+																		<div class="col-12 mx-auto text-center">
+																			<span class="card-text badge  {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
+																				{{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}} 
+																			</span>
+																			<span class="card-text badge  badge-warning">
+																				Lent: {{ $lent_items[$asset->id] }}
+																				{{-- {{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}}  --}}
+																			</span>
+																		</div>
+																	</div>
+																	<div class="card-body">
+																		<p class="card-text">Category: <strong class="float-right">{{ $asset->category->name }} </strong></p>
+																		<p class="card-text">Vendor: <strong class="float-right">{{ $asset->vendor->name }} </strong></p>
+																		<p class="card-text">SKU: <strong class="float-right" >{{ $asset->sku_number }}</strong></p>
+																		<p class="card-text">Condition: <strong class="float-right" >{{ $asset->asset_status->name }}</strong></p>
+																		<p class="card-text">Description: <strong class="float-right" >{{ $asset->description }}</strong></p>
 																		
-																	</p>
-																	<p class="card-text">Vendor: <strong>{{ $asset->vendor->name }} </strong>
-																		
-																	</p>
-																	<p class="card-text">SKU: <strong class="float-right" >{{ $asset->sku_number }}</strong></p>
-																	<p class="card-text">Condition: <strong class="float-right" >{{ $asset->asset_status->name }}</strong></p>
-																	<p class="card-text">Description: <strong class="float-right" >{{ $asset->description }}</strong></p>
-																	
-																	<div class="card-footer bg-transparent row ">
-																		<div class="col-6 mx-auto">
-																			<form action="{{ route('request_approve', ['user_request' => $request->id]) }}" method="POST">
-																				@csrf
-																				@method('PUT')
-																				<input type="hidden" value="{{$asset->id}}" name="asset_id">
-																				<button class="btn btn-primary btn-block">Assign Item</button>
-																			</form>
+																		<div class="card-footer bg-transparent row ">
+																			<div class="col-6 mx-auto">
+																				<form action="{{ route('request_approve', ['user_request' => $request->id]) }}" method="POST">
+																					@csrf
+																					@method('PUT')
+																					<input type="hidden" value="{{$asset->id}}" name="asset_id">
+																					<button class="btn btn-primary btn-block">Assign Item</button>
+																				</form>
+																			</div>
 																		</div>
 																	</div>
 																</div>
@@ -229,7 +248,10 @@
 																<tr>
 																	<th scope="col"><strong>Request</strong></th>
 																	<th scope="col">User</th>
-																	<th scope="col">Description</th>
+																	@if($request->description)
+																		<th scope="col">Description</th>
+																	@endif
+																	
 																	<th scope="col">Borrow Date</th>
 																	<th scope="col">Return Date</th>
 																	<th scope="col">Category</th>
@@ -242,7 +264,9 @@
 																<tr>
 																	<th scope="row">{{$request->request_number}} </th>
 																	<td>{{$request->user->name}}</td>
-																	<td>{{$request->description}}</td>
+																	@if($request->description)
+																		<td>{{$request->description}}</td>
+																	@endif
 																	<td>{{$request->borrow_date}}</td>
 																	<td>{{$request->return_date}}</td>
 																	<td>{{$request->category->name}}</td>
@@ -250,6 +274,11 @@
 																	<td> <p class="badge badge-warning ">{{$request->status->name}}</p></td>
 																	<td>
 																		<a href=" {{ route('user_requests.show', ['user_request'=>$request->id]) }} " class="btn btn-primary btn-block">View</a>
+																		{{-- <form action="{{ route('user_requests.destroy', ['user_request' => $request->id ])}} " method="POST">
+																			@csrf
+																			@method('DELETE')
+																			<button class="btn btn-danger btn-block mt-2">Delete</button>
+																		</form> --}}
 																	</td>
 																	{{-- <td> 
 																		<a href=" {{ route('user_requests.show', ['user_request'=>$request->id]) }} " class="btn btn-success btn-block btn-outline-dark">View</a>
@@ -379,7 +408,10 @@
 																<tr>
 																	<th scope="col"><strong>Request</strong></th>
 																	<th scope="col">User</th>
-																	<th scope="col">Description</th>
+																	@if($request->description)
+																		<th scope="col">Description</th>
+																	@endif
+																	
 																	<th scope="col">Borrow Date</th>
 																	<th scope="col">Return Date</th>
 																	<th scope="col">Category</th>
@@ -392,7 +424,9 @@
 																<tr>
 																	<th scope="row">{{$request->request_number}} </th>
 																	<td>{{$request->user->name}}</td>
-																	<td>{{$request->description}}</td>
+																	@if($request->description)
+																		<td>{{$request->description}}</td>
+																	@endif
 																	<td>{{$request->borrow_date}}</td>
 																	<td>{{$request->return_date}}</td>
 																	<td>{{$request->category->name}}</td>
@@ -400,6 +434,11 @@
 																	<td> <p class="badge badge-warning ">{{$request->status->name}}</p></td>
 																	<td>
 																		<a href=" {{ route('user_requests.show', ['user_request'=>$request->id]) }} " class="btn btn-primary btn-block">View</a>
+																		{{-- <form action="{{ route('user_requests.destroy', ['user_request' => $request->id ])}} " method="POST">
+																			@csrf
+																			@method('DELETE')
+																			<button class="btn btn-danger btn-block mt-2">Delete</button>
+																		</form> --}}
 																	</td>
 																	{{-- <td> 
 																		<a href=" {{ route('user_requests.show', ['user_request'=>$request->id]) }} " class="btn btn-success btn-block btn-outline-dark">View</a>

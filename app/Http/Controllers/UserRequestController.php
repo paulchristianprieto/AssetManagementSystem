@@ -249,7 +249,11 @@ class UserRequestController extends Controller
      */
     public function destroy(User_request $user_request)
     {
-        //
+        $this->authorize('delete', $user_request);
+        $user_request->delete();
+        // return redirect(route('category_filtered_assets', ['category_id'=>1]))->with('request_destroy_success', 'User request declined.');
+        return redirect(route('user_requests.index'))->with('request_destroy_success', 'User request declined.');
+        
     }
 
     public function request_category(Category $category_id, User_request $user_request){

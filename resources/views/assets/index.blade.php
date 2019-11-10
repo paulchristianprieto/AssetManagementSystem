@@ -54,7 +54,8 @@
 
 				<div class="row">
 					@foreach ($assets as $asset)
-						<div class="card col-4 m-2 mx-auto shadow p-3 mb-5 bg-white rounded">
+					<div class="col-4 p-2 mx-auto">
+						<div class="card {{-- col-4 m-2 mx-auto --}} shadow p-3 mb-5 bg-white rounded">
 							<div class="wrapper">
 								<img class="card-img-top img-fluid" src="{{ url('/public/' . $asset->image) }}" alt="{{ $asset->name}}">
 							</div>
@@ -94,6 +95,8 @@
 								
 							</div>
 						</div>
+						
+					</div>
 					@endforeach
 				</div>
 

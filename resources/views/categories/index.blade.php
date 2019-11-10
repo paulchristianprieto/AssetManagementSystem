@@ -46,6 +46,8 @@
 					</div>
 				</div>
 			@endif
+			
+			
 		
 
 			@cannot('isAdmin')
@@ -54,8 +56,7 @@
 					<div class="col-12 mx-auto">
 						<form action="{{ route('user_requests.store') }}" method="POST" class="text-center">
 							@csrf
-
-							<input type="hidden" name="category_id" value="{{$category->id}}">
+							<input type="hidden" name="category_id" value="{{$categories[$category_id-1]->id}}">
 							<div class="container-fluid my-3 col-12">
 								<h3 class="font-weight-bold text-uppercase">Request a {{$categories[$category_id-1]->name }}</h3>
 								<div class="mb-4">
@@ -154,47 +155,48 @@
 			@can('isAdmin')
 			<div class="row">
 				@foreach($assets as $asset)
-				<div class="card col-4 m-2 mx-auto shadow p-3 mb-5 bg-white rounded">
-					<div class="wrapper">
-						<img class="card-img-top img-fluid" src="{{ url('/public/' . $asset->image) }}" alt="{{ $asset->name}}">
-					</div>
-					<h4 class="card-title text-center">{{ $asset->name }}</h4>
-					<div class="row">
-						<div class="col-12 mx-auto text-center">
-							<span class="card-text badge  {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
-								{{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}} 
-							</span>
-							<span class="card-text badge  badge-warning">
-								Lent: {{ $lent_items[$asset->id] }}
-								{{-- {{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}}  --}}
-							</span>
+				<div class="col-4 p-2 mx-auto">
+					<div class="card {{-- col-4 m-2 mx-auto --}} shadow p-3 mb-5 bg-white rounded">
+						<div class="wrapper">
+							<img class="card-img-top img-fluid" src="{{ url('/public/' . $asset->image) }}" alt="{{ $asset->name}}">
 						</div>
-					</div>
-					<div class="card-body">
-						<p class="card-text">Category: <strong class="float-right">{{ $asset->category->name }} </strong>
-							
-						</p>
-						<p class="card-text">Vendor: <strong class="float-right">{{ $asset->vendor->name }} </strong>
-							
-						</p>
-						<p class="card-text">SKU: <strong class="float-right" >{{ $asset->sku_number }}</strong></p>
-						<p class="card-text">Condition: <strong class="float-right" >{{ $asset->asset_status->name }}</strong></p>
-						<p class="card-text">Description: <strong class="float-right" >{{ $asset->description }}</strong></p>
-						
-						<div class="card-footer bg-transparent row ">
-							<div class="col-6">
-								<a href="{{ route('assets.show', ['asset' => $asset->id]) }}" class="btn btn-primary btn-block ">View Item</a>
+						<h4 class="card-title text-center">{{ $asset->name }}</h4>
+						<div class="row">
+							<div class="col-12 mx-auto text-center">
+								<span class="card-text badge  {{ ($asset->available == 1)? 'badge-success': 'badge-danger' }} ">
+									{{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}} 
+								</span>
+								<span class="card-text badge  badge-warning">
+									Lent: {{ $lent_items[$asset->id] }}
+									{{-- {{ ($asset->available == 1) ? "Available: ": "Not Available: "}} {{$asset->quantity_available}}  --}}
+								</span>
 							</div>
-							<div class="col-6">
-								<a href="{{ route('assets.edit', ['asset' => $asset->id]) }}" class="btn btn-warning btn-block ">Edit Item</a>
+						</div>
+						<div class="card-body">
+							<p class="card-text">Category: <strong class="float-right">{{ $asset->category->name }} </strong>
+								
+							</p>
+							<p class="card-text">Vendor: <strong class="float-right">{{ $asset->vendor->name }} </strong>
+								
+							</p>
+							<p class="card-text">SKU: <strong class="float-right" >{{ $asset->sku_number }}</strong></p>
+							<p class="card-text">Condition: <strong class="float-right" >{{ $asset->asset_status->name }}</strong></p>
+							<p class="card-text">Description: <strong class="float-right" >{{ $asset->description }}</strong></p>
+							
+							<div class="card-footer bg-transparent row ">
+								<div class="col-6">
+									<a href="{{ route('assets.show', ['asset' => $asset->id]) }}" class="btn btn-primary btn-block ">View Item</a>
+								</div>
+								<div class="col-6">
+									<a href="{{ route('assets.edit', ['asset' => $asset->id]) }}" class="btn btn-warning btn-block ">Edit Item</a>
+								</div>
+								
 							</div>
+							
 							
 						</div>
-						
-						
 					</div>
 				</div>
-
 				@endforeach
 			</div>
 			@endcan
