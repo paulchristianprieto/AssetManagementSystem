@@ -115,14 +115,31 @@ class UserRequestController extends Controller
         */
         // dd(Auth::user()->id);
         // dd($request->all());
+        if ($borrow_date && $return_date) {
+            $borrow_date = date('Y-m-d H:i:s', strtotime($borrow_date)); 
+            $return_date = date('Y-m-d H:i:s', strtotime($return_date)); 
+            $request->validate([
+                'borrow_date' => "required|date|before:return_date",
+                'return_date' => "required|date",
+                'description' => "nullable|string|max:191",
+                'category_id' => "required",
+                'quantity' => "required|digits_between:1,9999"
+            ]);
+        }
+        else {
+            $request->validate([
+                'borrow_date' => 'required',
+                'return_date' => 'required'
+            ]);
+        }
+        
 
         $request_number = Auth::user()->id . "_" . Str::random(10) . "_" . time();
         $description = $request->input('description');
         $borrow_date = $request->input('borrow_date');
         $return_date = $request->input('return_date');
 
-        $borrow_date = date('Y-m-d H:i:s', strtotime($borrow_date)); 
-        $return_date = date('Y-m-d H:i:s', strtotime($return_date)); 
+        
 
         $user_id = Auth::user()->id;
         $category_id = $request->input('category_id');
@@ -149,16 +166,57 @@ class UserRequestController extends Controller
     public function show(User_request $user_request)
     {  
         $this->authorize('view', $user_request);
+
+        
+        $assets = Asset::all();
+        $asset_statuses = Asset_status::all();
         $category_items = Asset::where('category_id', $user_request->category_id)->get();
         // $userRequests = User_request::where('user_id', $user_id)->orderBy('created_at', 'DESC')->get();
+
+
+        $user_requests = User_request::all();
+        $lent_items = [];
+        // accessing pivot table
+        foreach ($assets as $asset) {
+            $temp =0;
+            // echo $asset->id;
+            $lent_items[$asset->id] =0;
+            foreach ($user_requests as $user_request_from_array) {
+                // dd($user_request->assets);
+                foreach ($user_request_from_array->assets as $user_request_asset) {
+                    // dd($user_request_asset->pivot->asset_id);
+                    // dd( $user_request_asset->pivot->quantity);
+                    // dd($asset);
+
+                    if($user_request_asset->pivot->asset_status == "Lent" && $user_request_asset->pivot->asset_id == $asset->id){
+                        $temp += $user_request_asset->pivot->quantity;
+
+                        // echo $user_request_asset->pivot->quantity;
+                    }
+                }
+            }
+            $lent_items[$asset->id] = $temp;
+        }
+        // dd($user_request->id);
+
         if($user_request->asset_id){
             $asset = Asset::find($user_request->asset_id);
-            return view('user_requests.show', ['user_request'=>$user_request])->with('category_items', $category_items)->with('asset', $asset);
+            return view('user_requests.show', ['user_request'=>$user_request])
+                ->with('category_items', $category_items)
+                ->with('asset', $asset)
+                ->with('assets', $assets)
+                ->with('user_requests', $user_requests)
+                ->with('asset_statuses', $asset_statuses)
+                ->with('lent_items', $lent_items);
         }
 
 
         
-        return view('user_requests.show', ['user_request'=>$user_request])->with('category_items', $category_items);
+        return view('user_requests.show', ['user_request'=>$user_request])
+            ->with('category_items', $category_items)
+            ->with('assets', $assets)
+            ->with('user_requests', $user_requests)
+            ->with('lent_items', $lent_items);
         
     }
 

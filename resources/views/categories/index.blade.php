@@ -6,20 +6,22 @@
 <div class="container-fluid ">
 	<div class="row side-panel">
 		<div class="col-2 bg-dark p-4 ">
-			<div class="row m-4 " style="color:white;">
-				<div class="col-12 text-center p-3" style="font-size: 24px;">
-					<i class="far fa-user fa-5x"></i>
+			<div class="sticky-top">
+				<div class="row m-4 " style="color:white;">
+					<div class="col-12 text-center p-3" style="font-size: 24px;">
+						<i class="far fa-user fa-5x"></i>
+					</div>
+					<div class="col-12 text-center">
+						<h5 class="mt-2">{{Auth::user()->name}} </h5>
+						<p>{{Auth::user()->email}} </p>
+						<p>{{Auth::user()->role->name}} </p>
+					</div>
 				</div>
-				<div class="col-12 text-center">
-					<h5 class="mt-2">{{Auth::user()->name}} </h5>
-					<p>{{Auth::user()->email}} </p>
-					<p>{{Auth::user()->role->name}} </p>
+				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+					<a class="nav-link" href="{{ route('assets.create') }}">Add Asset</a>
+					<a class="nav-link" href="{{ route('vendors.create') }}">Add Vendor</a>
+					<a class="nav-link" href="{{ route('categories.create') }}">Add Category</a>
 				</div>
-			</div>
-			<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-				<a class="nav-link" href="{{ route('assets.create') }}">Add Asset</a>
-				<a class="nav-link" href="{{ route('vendors.create') }}">Add Vendor</a>
-				<a class="nav-link" href="{{ route('categories.create') }}">Add Category</a>
 			</div>
 			
 		</div>
