@@ -108,7 +108,10 @@
 																	<th scope="col">Category</th>
 																	<th scope="col">Quantity</th>
 																	<th scope="col">Status</th>
+																	@can('isAdmin')
 																	<th scope="col">Actions</th>
+																	@endcan
+
 																</tr>
 															</thead>
 															<tbody>
@@ -123,6 +126,8 @@
 																	<td>{{$request->category->name}}</td>
 																	<td>{{$request->quantity}}</td>
 																	<td> <p class="badge badge-warning ">{{$request->status->name}}</p></td>
+																	@can('isAdmin')
+																	    
 																	<td>
 																		<a href=" {{ route('user_requests.show', ['user_request'=>$request->id]) }} " class="btn btn-primary btn-block">View</a>
 																		<form action="{{ route('user_requests.destroy', ['user_request' => $request->id ])}} " method="POST">
@@ -131,6 +136,7 @@
 																			<button class="btn btn-danger btn-block mt-2">Decline</button>
 																		</form>
 																	</td>
+																	@endcan
 																	{{-- <td> 
 																		<a href=" {{ route('user_requests.show', ['user_request'=>$request->id]) }} " class="btn btn-success btn-block btn-outline-dark">View</a>
 																		<a href="{{ route('request_assign', ['user_request'=>$request->id]) }}" class="btn btn-info btn-block btn-outline-dark" >Approve</a>
@@ -173,7 +179,8 @@
 																		<p class="card-text">SKU: <strong class="float-right" >{{ $asset->sku_number }}</strong></p>
 																		<p class="card-text">Condition: <strong class="float-right" >{{ $asset->asset_status->name }}</strong></p>
 																		<p class="card-text">Description: <strong class="float-right" >{{ $asset->description }}</strong></p>
-																		
+																		@can('isAdmin')
+																	    
 																		<div class="card-footer bg-transparent row ">
 																			<div class="col-6 mx-auto">
 																				<form action="{{ route('request_approve', ['user_request' => $request->id]) }}" method="POST">
@@ -184,6 +191,8 @@
 																				</form>
 																			</div>
 																		</div>
+																		@endcan
+
 																	</div>
 																</div>
 															</div>
@@ -260,7 +269,10 @@
 																	<th scope="col">Category</th>
 																	<th scope="col">Quantity</th>
 																	<th scope="col">Status</th>
+																
+																	    
 																	<th scope="col">Actions</th>
+																	
 																</tr>
 															</thead>
 															<tbody>
@@ -300,8 +312,9 @@
 															</div>
 														</div>
 														<div class="row">
+															
 															@foreach ($assets as $asset)
-															@if($asset->category_id == $request->category_id && $asset->quantity_available >= $request->quantity)
+															@if( $asset->id == $request->asset_id )
 															<div class="card mx-auto col-4 m-2 shadow p-3 mb-5 bg-white rounded">
 																<div class="wrapper">
 																	<img class="card-img-top img-fluid" src="{{ url('/public/' . $asset->image) }}" alt="{{ $asset->name}}">
@@ -328,6 +341,7 @@
 																	<p class="card-text">SKU: <strong class="float-right" >{{ $asset->sku_number }}</strong></p>
 																	<p class="card-text">Condition: <strong class="float-right" >{{ $asset->asset_status->name }}</strong></p>
 																	<p class="card-text">Description: <strong class="float-right" >{{ $asset->description }}</strong></p>
+																	@can('isAdmin')
 																	
 																	<div class="card-footer bg-transparent row ">
 																		
@@ -350,6 +364,7 @@
 																			</form>
 																		</div>
 																	</div>
+																	@endcan
 																</div>
 															</div>
 															@endif
@@ -420,7 +435,9 @@
 																	<th scope="col">Category</th>
 																	<th scope="col">Quantity</th>
 																	<th scope="col">Status</th>
+																	@can('isAdmin')
 																	<th scope="col">Actions</th>
+																	@endcan
 																</tr>
 															</thead>
 															<tbody>
@@ -435,6 +452,7 @@
 																	<td>{{$request->category->name}}</td>
 																	<td>{{$request->quantity}}</td>
 																	<td> <p class="badge badge-warning ">{{$request->status->name}}</p></td>
+																	@can('isAdmin')
 																	<td>
 																		<a href=" {{ route('user_requests.show', ['user_request'=>$request->id]) }} " class="btn btn-primary btn-block">View</a>
 																		{{-- <form action="{{ route('user_requests.destroy', ['user_request' => $request->id ])}} " method="POST">
@@ -443,6 +461,7 @@
 																			<button class="btn btn-danger btn-block mt-2">Delete</button>
 																		</form> --}}
 																	</td>
+																	@endcan
 																	{{-- <td> 
 																		<a href=" {{ route('user_requests.show', ['user_request'=>$request->id]) }} " class="btn btn-success btn-block btn-outline-dark">View</a>
 																		<a href="{{ route('request_assign', ['user_request'=>$request->id]) }}" class="btn btn-info btn-block btn-outline-dark" >Approve</a>
