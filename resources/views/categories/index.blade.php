@@ -85,12 +85,18 @@
 						        <div class="form-group row">
 						        	<label for="borrow_date" class="form-check-label col-3 mx-auto col-form-label text-left">Borrow Date: </label>
 						           	<div class="input-group date col-6 mx-auto " id="datetimepicker7" data-target-input="nearest">
-						                <input placeholder="12/31/2018 00:00 AM" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker7" id="borrow_date" name="borrow_date" />
+						                <input placeholder="12/31/2018 00:00 AM" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker7" id="borrow_date" name="borrow_date"  aria-describedby="borrow_dateError" />
 						                <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
 						                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
 						                </div>
 						            </div>
+						            
 						        </div>
+						        @if ($errors->has('borrow_date'))
+									<small id="borrow_dateError" class="form-text text-muted alert-danger alert">
+										Borrow date is not valid.
+									</small>							
+								@endif
 								{{-- <div class="row">
 									<div class="col-8">
 										<p >To</p>
@@ -101,23 +107,28 @@
 								<div class="form-group row">
 						        	<label for="return_date" class="form-check-label mx-auto col-form-label col-3 text-left">Return Date: </label>
 						           	<div class="input-group mx-auto date col-6" id="datetimepicker8" data-target-input="nearest">
-						                <input placeholder="12/31/2018 00:00 AM" type="text" id="return_date" class="form-control datetimepicker-input" data-target="#datetimepicker8" name="return_date" />
+						                <input placeholder="12/31/2018 00:00 AM" type="text" id="return_date" class="form-control datetimepicker-input" data-target="#datetimepicker8" name="return_date"  aria-describedby="return_dateError"/>
 						                <div class="input-group-append" data-target="#datetimepicker8" data-toggle="datetimepicker">
 						                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
 						                </div>
 						            </div>
+						            
 						        </div>
+						        @if ($errors->has('return_date'))
+									<small id="return_dateError" class="form-text text-muted alert-danger alert">
+										Return date is not valid.
+									</small>							
+								@endif
 
 						        <div class="form-group row">
 									<label for="quantity" class="col-3 mx-auto col-form-label text-left">Quantity: </label>
 									<input type="number" class="input-group form-control mx-auto col-6" name="quantity" min="1" placeholder="1" aria-describedby="quantityError">
-								
-									@if ($errors->has('quantity'))
-										<small id="quantityError" class="form-text text-muted alert-danger alert">
-											Quantity is not valid.
-										</small>							
-									@endif
 								</div>
+								@if ($errors->has('quantity'))
+									<small id="quantityError" class="form-text text-muted alert-danger alert">
+										Quantity is not valid.
+									</small>							
+								@endif
 								<div class="form-group row">
 									<label for="description" class="col-3 mx-auto col-form-label text-left">Request Description (optional):</label>
 									<textarea 

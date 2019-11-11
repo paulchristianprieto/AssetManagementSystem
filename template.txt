@@ -30,3 +30,5 @@
 {{ \Carbon\Carbon::parse($request->borrow_date)->format('M d, Y @ H:i') }}
 
 {{ \Carbon\Carbon::parse($request->return_date)->format('M d, Y @ H:i') }}
+
+

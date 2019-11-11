@@ -115,23 +115,18 @@ class UserRequestController extends Controller
         */
         // dd(Auth::user()->id);
         // dd($request->all());
-        if ($borrow_date && $return_date) {
-            $borrow_date = date('Y-m-d H:i:s', strtotime($borrow_date)); 
-            $return_date = date('Y-m-d H:i:s', strtotime($return_date)); 
-            $request->validate([
-                'borrow_date' => "required|date|before:return_date",
-                'return_date' => "required|date",
-                'description' => "nullable|string|max:191",
-                'category_id' => "required",
-                'quantity' => "required|digits_between:1,9999"
-            ]);
-        }
-        else {
-            $request->validate([
-                'borrow_date' => 'required',
-                'return_date' => 'required'
-            ]);
-        }
+        
+        
+        $request->validate([
+            'borrow_date' => "required|date|before:return_date",
+            'return_date' => "required|date",
+            'description' => "nullable|string|max:191",
+            'category_id' => "required",
+            'quantity' => "required|digits_between:1,9999"
+        ]);
+        $borrow_date = date('Y-m-d H:i:s', strtotime($borrow_date)); 
+        $return_date = date('Y-m-d H:i:s', strtotime($return_date)); 
+    
         
 
         $request_number = Auth::user()->id . "_" . Str::random(10) . "_" . time();
